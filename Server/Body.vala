@@ -66,15 +66,15 @@ namespace Server
 						}
 						catch
 						{
-							Console.WriteLine( "Warning: Invalid bodyTable entry:" );
-							Console.WriteLine( line );
+							stdout.printf( "Warning: Invalid bodyTable entry:" );
+							stdout.printf( line );
 						}
 					}
 				}
 			}
 			else
 			{
-				Console.WriteLine( "Warning: Data/bodyTable.cfg does not exist" );
+				stdout.printf( "Warning: Data/bodyTable.cfg does not exist" );
 
 				m_Types = new BodyType[0];
 			}

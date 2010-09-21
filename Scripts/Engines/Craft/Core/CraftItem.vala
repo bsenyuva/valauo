@@ -30,7 +30,7 @@ namespace Server.Engines.Craft
 
 		private string m_NameString;
 		private int m_NameNumber;
-		
+
 		private int m_Mana;
 		private int m_Hits;
 		private int m_Stam;
@@ -50,7 +50,7 @@ namespace Server.Engines.Craft
 			get { return m_ForceNonExceptional; }
 			set { m_ForceNonExceptional = value; }
 		}
-	
+
 
 		private Expansion m_RequiredExpansion;
 
@@ -71,7 +71,7 @@ namespace Server.Engines.Craft
 		{
 			if( m_Recipe != null )
 			{
-				Console.WriteLine( "Warning: Attempted add of recipe #{0} to the crafting of {1} in CraftSystem {2}.", id, this.m_Type.Name, system );
+				stdout.printf( "Warning: Attempted add of recipe #{0} to the crafting of {1} in CraftSystem {2}.", id, this.m_Type.Name, system );
 				return;
 			}
 
@@ -80,7 +80,7 @@ namespace Server.Engines.Craft
 
 
 		private static Dictionary<Type, int> _itemIds = new Dictionary<Type, int>();
-		
+
 		public static int ItemIDOf( Type type ) {
 			int itemId;
 
@@ -200,7 +200,7 @@ namespace Server.Engines.Craft
 			get { return m_NeedMill; }
 			set { m_NeedMill = value; }
 		}
-		
+
 		public Type ItemType
 		{
 			get { return m_Type; }
@@ -296,7 +296,7 @@ namespace Server.Engines.Craft
 				0x398C, 0x399F,  // Fire field
 				0x2DDB, 0x2DDC,	//Elven stove
 				0x19AA, 0x19BB,	// Veteran Reward Brazier
-				0x197A, 0x19A9, // Large Forge 
+				0x197A, 0x19A9, // Large Forge
 				0x0FB1, 0x0FB1, // Small Forge
 				0x2DD8, 0x2DD8 // Elven Forge
 			};
@@ -701,7 +701,7 @@ namespace Server.Engines.Craft
 					return false;
 				}
 			}
-			
+
 			int index = 0;
 
 			// Consume ALL

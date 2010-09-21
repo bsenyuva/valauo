@@ -36,7 +36,7 @@ namespace Server.RemoteAdmin
 		{
 			if ( m_Handlers[command] == null )
 			{
-				Console.WriteLine( "ADMIN: Invalid packet 0x{0:X2} from {1}, disconnecting", command, state );
+				stdout.printf( "ADMIN: Invalid packet 0x{0:X2} from {1}, disconnecting", command, state );
 				return false;
 			}
 			else
@@ -126,7 +126,7 @@ namespace Server.RemoteAdmin
 		}
 
 		private static void UpdateAccount( NetState state, PacketReader pvSrc )
-		{ 
+		{
 			string username = pvSrc.ReadString();
 			string pass = pvSrc.ReadString();
 
@@ -147,7 +147,7 @@ namespace Server.RemoteAdmin
 				pvSrc.ReadInt16();//skip both
 				state.Send( new MessageBoxMessage( "Warning: When editing your own account, account status and accesslevel cannot be changed.", "Editing Own Account" ) );
 			}
-			
+
 			ArrayList list = new ArrayList();
 			ushort length = pvSrc.ReadUInt16();
 			bool invalid = false;
@@ -159,7 +159,7 @@ namespace Server.RemoteAdmin
 				else
 					invalid = true;
 			}
-			
+
 			if ( list.Count > 0 )
 				a.IPRestrictions = (string[])list.ToArray( typeof( string ) );
 			else

@@ -46,12 +46,12 @@ namespace Server
 							}
 							catch ( Exception e )
 							{
-								Console.WriteLine( "{0} {1} {2} {3}", i, x, y, e );
+								stdout.printf( "{0} {1} {2} {3}", i, x, y, e );
 							}
 						}
 						catch
 						{
-                            Console.WriteLine( "Warning: Error in Line '{0}' of Data/treasure.cfg", line );
+                            stdout.printf( "Warning: Error in Line '{0}' of Data/treasure.cfg", line );
 						}
 					}
 				}

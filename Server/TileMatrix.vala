@@ -445,7 +445,7 @@ namespace Server
 			{
 				if ( DateTime.Now >= m_NextStaticWarning )
 				{
-					Console.WriteLine( "Warning: Static EOS for {0} ({1}, {2})", m_Owner, x, y );
+					stdout.printf( "Warning: Static EOS for {0} ({1}, {2})", m_Owner, x, y );
 					m_NextStaticWarning = DateTime.Now + TimeSpan.FromMinutes( 1.0 );
 				}
 
@@ -485,7 +485,7 @@ namespace Server
 			{
 				if ( DateTime.Now >= m_NextLandWarning )
 				{
-					Console.WriteLine( "Warning: Land EOS for {0} ({1}, {2})", m_Owner, x, y );
+					stdout.printf( "Warning: Land EOS for {0} ({1}, {2})", m_Owner, x, y );
 					m_NextLandWarning = DateTime.Now + TimeSpan.FromMinutes( 1.0 );
 				}
 

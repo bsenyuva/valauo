@@ -998,9 +998,9 @@ namespace Server
 		}
 
 		/// <summary>
-		/// Overridable. Determines whether the item will show <see cref="AddWeightProperty" />. 
+		/// Overridable. Determines whether the item will show <see cref="AddWeightProperty" />.
 		/// </summary>
-		public virtual bool DisplayWeight 
+		public virtual bool DisplayWeight
 		{
 			get
 			{
@@ -1011,11 +1011,11 @@ namespace Server
 					return false;
 
 				return true;
-			} 
+			}
 		}
 
 		/// <summary>
-		/// Overridable. Displays cliloc 1072788-1072789. 
+		/// Overridable. Displays cliloc 1072788-1072789.
 		/// </summary>
 		public virtual void AddWeightProperty( ObjectPropertyList list )
 		{
@@ -1182,10 +1182,10 @@ namespace Server
 		///	{
 		///		if ( from.Int &gt;= 100 )
 		///			return true;
-		///		
+		///
 		///		return base.AllowEquipedCast( from );
 		/// }</code>
-		/// 
+		///
 		/// When placed in an Item script, the item may be cast when equiped if the <paramref name="from" /> has 100 or more intelligence. Otherwise, it will drop to their backpack.
 		/// </example>
 		public virtual bool AllowEquipedCast( Mobile from )
@@ -2694,7 +2694,7 @@ namespace Server
 				else if ( m_Parent is Mobile )
 					( m_Parent as Mobile ).UpdateTotal( sender, type, delta );
 				else if ( this.HeldBy != null )
-					( this.HeldBy as Mobile ).UpdateTotal( sender, type, delta );			
+					( this.HeldBy as Mobile ).UpdateTotal( sender, type, delta );
 			}
 		}
 
@@ -2917,14 +2917,14 @@ namespace Server
 			}
 			else if ( item == this )
 			{
-				Console.WriteLine( "Warning: Adding item to itself: [0x{0:X} {1}].AddItem( [0x{2:X} {3}] )", this.Serial.Value, this.GetType().Name, item.Serial.Value, item.GetType().Name );
-				Console.WriteLine( new System.Diagnostics.StackTrace() );
+				stdout.printf( "Warning: Adding item to itself: [0x{0:X} {1}].AddItem( [0x{2:X} {3}] )", this.Serial.Value, this.GetType().Name, item.Serial.Value, item.GetType().Name );
+				stdout.printf( new System.Diagnostics.StackTrace() );
 				return;
 			}
 			else if ( IsChildOf( item ) )
 			{
-				Console.WriteLine( "Warning: Adding parent item to child: [0x{0:X} {1}].AddItem( [0x{2:X} {3}] )", this.Serial.Value, this.GetType().Name, item.Serial.Value, item.GetType().Name );
-				Console.WriteLine( new System.Diagnostics.StackTrace() );
+				stdout.printf( "Warning: Adding parent item to child: [0x{0:X} {1}].AddItem( [0x{2:X} {3}] )", this.Serial.Value, this.GetType().Name, item.Serial.Value, item.GetType().Name );
+				stdout.printf( new System.Diagnostics.StackTrace() );
 				return;
 			}
 			else if ( item.m_Parent is Mobile )
@@ -3721,7 +3721,7 @@ namespace Server
 						InvalidateProperties();
 
 					if ( !Stackable && m_Amount > 1 )
-						Console.WriteLine( "Warning: 0x{0:X}: Amount changed for non-stackable item '{2}'. ({1})", m_Serial.Value, m_Amount, GetType().Name );
+						stdout.printf( "Warning: 0x{0:X}: Amount changed for non-stackable item '{2}'. ({1})", m_Serial.Value, m_Amount, GetType().Name );
 				}
 			}
 		}
@@ -4478,9 +4478,9 @@ namespace Server
 		public bool QuestItem
 		{
 			get { return GetFlag( ImplFlag.QuestItem ); }
-			set 
-			{ 
-				SetFlag( ImplFlag.QuestItem, value ); 
+			set
+			{
+				SetFlag( ImplFlag.QuestItem, value );
 
 				InvalidateProperties();
 

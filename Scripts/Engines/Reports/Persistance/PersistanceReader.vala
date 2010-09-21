@@ -110,7 +110,7 @@ namespace Server.Engines.Reports
 			m_Xml.Read();
 			m_HasChild = !m_Xml.IsEmptyElement;
 			root.Deserialize( this );
-			Console.WriteLine( "done" );
+			stdout.printf( "done" );
 		}
 
 		public override void Close()

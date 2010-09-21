@@ -158,7 +158,7 @@ namespace Server
 			}
 			catch ( Exception e )
 			{
-				Console.WriteLine( "Warning: {0}: Pathing error from {1} to {2}", e.GetType().Name, start, goal );
+				stdout.printf( "Warning: {0}: Pathing error from {1} to {2}", e.GetType().Name, start, goal );
 			}
 		}
 	}

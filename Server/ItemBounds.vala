@@ -60,7 +60,7 @@ namespace Server
 			}
 			else
 			{
-				Console.WriteLine( "Warning: Data/Binary/Bounds.bin does not exist" );
+				stdout.printf( "Warning: Data/Binary/Bounds.bin does not exist" );
 
 				m_Bounds = new Rectangle2D[0x4000];
 			}

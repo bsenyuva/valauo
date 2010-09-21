@@ -989,7 +989,7 @@ namespace Server
 			if ( regName != null )
 			{
 				if ( m_Regions.ContainsKey( regName ) )
-					Console.WriteLine( "Warning: Duplicate region name '{0}' for map '{1}'", regName, this.Name );
+					stdout.printf( "Warning: Duplicate region name '{0}' for map '{1}'", regName, this.Name );
 				else
 					m_Regions[regName] = reg;
 			}
@@ -1104,7 +1104,7 @@ namespace Server
 				++m_Depth;
 
 				if ( m_Depth >= 5 )
-					Console.WriteLine( "Warning: Make sure to call .Free() on pooled enumerables." );
+					stdout.printf( "Warning: Make sure to call .Free() on pooled enumerables." );
 
 				PooledEnumerable e;
 
@@ -1676,7 +1676,7 @@ namespace Server
 					}
 					catch
 					{
-						Console.WriteLine( "Warning: Object removed during enumeration. May not be recoverable" );
+						stdout.printf( "Warning: Object removed during enumeration. May not be recoverable" );
 
 						m_CurrentIndex = -1;
 						m_CurrentList = GetListForSector( m_Map.InternalGetSector( m_xSector, m_ySector ) );
@@ -1789,7 +1789,7 @@ namespace Server
 			}
 			else
 			{
-				Console.WriteLine( "Warning: Invalid object ({0}) in line of sight", o );
+				stdout.printf( "Warning: Invalid object ({0}) in line of sight", o );
 				p = Point3D.Zero;
 			}
 
@@ -1954,8 +1954,8 @@ namespace Server
 					/*if ( t.Z <= point.Z && t.Z+height >= point.Z && (flags&TileFlag.Window)==0 && (flags&TileFlag.NoShoot)!=0
 						&& ( (flags&TileFlag.Wall)!=0 || (flags&TileFlag.Roof)!=0 || (((flags&TileFlag.Surface)!=0 && zd != 0)) ) )*/
 					/*{
-						//Console.WriteLine( "LoS: Blocked by Static \"{0}\" Z:{1} T:{3} P:{2} F:x{4:X}", TileData.ItemTable[t.ID&0x3FFF].Name, t.Z, point, t.Z+height, flags );
-						//Console.WriteLine( "if ( {0} && {1} && {2} && ( {3} || {4} || {5} || ({6} && {7} && {8}) ) )", t.Z <= point.Z, t.Z+height >= point.Z, (flags&TileFlag.Window)==0, (flags&TileFlag.Impassable)!=0, (flags&TileFlag.Wall)!=0, (flags&TileFlag.Roof)!=0, (flags&TileFlag.Surface)!=0, t.Z != dest.Z, zd != 0 ) ;
+						//stdout.printf( "LoS: Blocked by Static \"{0}\" Z:{1} T:{3} P:{2} F:x{4:X}", TileData.ItemTable[t.ID&0x3FFF].Name, t.Z, point, t.Z+height, flags );
+						//stdout.printf( "if ( {0} && {1} && {2} && ( {3} || {4} || {5} || ({6} && {7} && {8}) ) )", t.Z <= point.Z, t.Z+height >= point.Z, (flags&TileFlag.Window)==0, (flags&TileFlag.Impassable)!=0, (flags&TileFlag.Wall)!=0, (flags&TileFlag.Roof)!=0, (flags&TileFlag.Surface)!=0, t.Z != dest.Z, zd != 0 ) ;
 						return false;
 					}*/
 				}
@@ -2014,7 +2014,7 @@ namespace Server
 				//if ( (flags&TileFlag.Window)==0 && (flags&TileFlag.NoShoot)!=0 && ( (flags&TileFlag.Wall)!=0 || (flags&TileFlag.Roof)!=0 || (((flags&TileFlag.Surface)!=0 && zd != 0)) ) )
 				{
 					//height = TileData.ItemTable[i.ItemID&0x3FFF].Height;
-					//Console.WriteLine( "LoS: Blocked by ITEM \"{0}\" P:{1} T:{2} F:x{3:X}", TileData.ItemTable[i.ItemID&0x3FFF].Name, i.Location, i.Location.Z+height, flags );
+					//stdout.printf( "LoS: Blocked by ITEM \"{0}\" P:{1} T:{2} F:x{3:X}", TileData.ItemTable[i.ItemID&0x3FFF].Name, i.Location, i.Location.Z+height, flags );
 					area.Free();
 					return false;
 				}*/

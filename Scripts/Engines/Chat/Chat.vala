@@ -110,7 +110,7 @@ namespace Server.Engines.Chat
 
 			SendCommandTo( from, ChatCommand.OpenChatWindow, accountChatName );
 			ChatUser.AddChatUser( from );
-		} 
+		}
 
 		public static ChatUser SearchForUser( ChatUser from, string name )
 		{
@@ -162,12 +162,12 @@ namespace Server.Engines.Chat
 				}
 				else
 				{
-					Console.WriteLine( "Client: {0}: Unknown chat action 0x{1:X}: {2}", state, actionID, param );
+					stdout.printf( "Client: {0}: Unknown chat action 0x{1:X}: {2}", state, actionID, param );
 				}
 			}
 			catch ( Exception e )
 			{
-				Console.WriteLine( e );
+				stdout.printf( e );
 			}
 		}
 	}

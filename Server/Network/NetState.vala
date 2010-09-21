@@ -409,7 +409,7 @@ namespace Server.Network {
 		}
 
 		public void WriteConsole( string text ) {
-			Console.WriteLine( "Client: {0}: {1}", this, text );
+			stdout.printf( "Client: {0}: {1}", this, text );
 		}
 
 		public void WriteConsole( string format, params object[] args ) {
@@ -644,7 +644,7 @@ namespace Server.Network {
 						}
 					}
 				} catch ( CapacityExceededException ) {
-					Console.WriteLine( "Client: {0}: Too much data pending, disconnecting...", this );
+					stdout.printf( "Client: {0}: Too much data pending, disconnecting...", this );
 					Dispose( false );
 				}
 
@@ -654,7 +654,7 @@ namespace Server.Network {
 					prof.Finish( length );
 				}
 			} else {
-				Console.WriteLine( "Client: {0}: null buffer send, disconnecting...", this );
+				stdout.printf( "Client: {0}: null buffer send, disconnecting...", this );
 				using ( StreamWriter op = new StreamWriter( "null_send.log", true ) )
 				{
 					op.WriteLine( "{0} Client: {1}: null buffer send, disconnecting...", DateTime.Now, this );
@@ -780,7 +780,7 @@ namespace Server.Network {
 				return true;
 			}
 
-			Console.WriteLine( "Client: {0}: Disconnecting due to inactivity...", this );
+			stdout.printf( "Client: {0}: Disconnecting due to inactivity...", this );
 
 			Dispose();
 			return false;
@@ -843,7 +843,7 @@ namespace Server.Network {
 			}
 
 			try {
-				Console.WriteLine( ex );
+				stdout.printf( ex );
 			} catch {
 			}
 		}

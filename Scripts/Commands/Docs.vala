@@ -23,7 +23,7 @@ namespace Server.Commands
 		private static void DocGen_OnCommand( CommandEventArgs e )
 		{
 			World.Broadcast( 0x35, true, "Documentation is being generated, please wait." );
-			Console.WriteLine( "Documentation is being generated, please wait." );
+			stdout.printf( "Documentation is being generated, please wait." );
 
 			Network.NetState.FlushAll();
 			Network.NetState.Pause();
@@ -39,12 +39,12 @@ namespace Server.Commands
 			if( generated )
 			{
 				World.Broadcast( 0x35, true, "Documentation has been completed. The entire process took {0:F1} seconds.", (endTime - startTime).TotalSeconds );
-				Console.WriteLine( "Documentation complete." );
+				stdout.printf( "Documentation complete." );
 			}
 			else
 			{
 				World.Broadcast( 0x35, true, "Docmentation failed: Documentation directories are locked and in use. Please close all open files and directories and try again." );
-				Console.WriteLine( "Documentation failed." );
+				stdout.printf( "Documentation failed." );
 			}
 		}
 
@@ -175,7 +175,7 @@ namespace Server.Commands
 
 				FormatGeneric( m_Type, ref m_TypeName, ref m_FileName, ref m_LinkName );
 
-				//				Console.WriteLine( ">> inline typeinfo: "+m_TypeName );
+				//				stdout.printf( ">> inline typeinfo: "+m_TypeName );
 				//				m_TypeName = GetGenericTypeName( m_Type );
 				//				m_FileName = Docs.GetFileName( "docs/types/", GetGenericTypeName( m_Type, "-", "-" ), ".html" );
 				//				m_Writer = Docs.GetWriter( "docs/types/", m_FileName );
@@ -374,7 +374,7 @@ namespace Server.Commands
 			}
 
 			string retval = String.Concat( prepend, aliased, append, name );
-			//Console.WriteLine(">> getpair: "+retval);
+			//stdout.printf(">> getpair: "+retval);
 			return retval;
 		}
 
@@ -2483,7 +2483,7 @@ namespace Server.Commands
 			}
 			else linkName = link;
 
-			//Console.WriteLine( typeName+":"+fileName+":"+linkName );
+			//stdout.printf( typeName+":"+fileName+":"+linkName );
 		}
 
 		public static string SanitizeType( string name )

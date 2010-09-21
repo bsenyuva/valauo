@@ -305,7 +305,7 @@ namespace Server.Multis
 					{
 						int mod = (itemID - 0x2D63)/2%2;
 						DoorFacing facing = ( ( mod == 0 ) ? DoorFacing.SouthCCW : DoorFacing.WestCCW );
-						
+
 						int type = (itemID - 0x2D63) / 4;
 
 						door = new GenericHouseDoor( facing, 0x2D63 + 4*type + mod*2, 0xEA, 0xF1, false );
@@ -1275,9 +1275,9 @@ namespace Server.Multis
 				}
 
 				mcl.Remove( itemID, x, y, z );
-				
+
 				int dir = 0;
-				
+
 				if( IsStair( itemID, ref dir ) || IsStairBlock( itemID ) )
 					design.SendGeneralInfoTo( state );
 
@@ -1566,7 +1566,7 @@ namespace Server.Multis
 				 *  - Update design context with new level
 				 *  - Teleport mobile to new level
 				 *  - Update client
-				 * 
+				 *
 				 */
 
 				// Read data detailing the target level
@@ -1986,7 +1986,7 @@ namespace Server.Multis
 
 			DesignContext d;
 			m_Table.TryGetValue( from, out d );
-			
+
 			return d;
 		}
 
@@ -2034,10 +2034,10 @@ namespace Server.Multis
 
 			if( foundation.Signpost != null )
 				state.Send( foundation.Signpost.RemovePacket );
-			
+
 			if( foundation.SignHanger != null )
 				state.Send( foundation.SignHanger.RemovePacket );
-			
+
 			if( foundation.Sign != null )
 				state.Send( foundation.Sign.RemovePacket );
 		}
@@ -2075,10 +2075,10 @@ namespace Server.Multis
 
 			if( context.Foundation.Signpost != null )
 				context.Foundation.Signpost.SendInfoTo( state );
-			
+
 			if( context.Foundation.SignHanger != null )
 				context.Foundation.SignHanger.SendInfoTo( state );
-			
+
 			if( context.Foundation.Sign != null )
 				context.Foundation.Sign.SendInfoTo( state );
 		}
@@ -2326,7 +2326,7 @@ namespace Server.Multis
 
 				if( ce != ZLibError.Okay )
 				{
-					Console.WriteLine( "ZLib error: {0} (#{1})", ce, (int)ce );
+					stdout.printf( "ZLib error: {0} (#{1})", ce, (int)ce );
 					deflatedLength = 0;
 					size = 0;
 				}
@@ -2360,7 +2360,7 @@ namespace Server.Multis
 
 				if( ce != ZLibError.Okay )
 				{
-					Console.WriteLine( "ZLib error: {0} (#{1})", ce, (int)ce );
+					stdout.printf( "ZLib error: {0} (#{1})", ce, (int)ce );
 					deflatedLength = 0;
 					size = 0;
 				}
@@ -2466,7 +2466,7 @@ namespace Server.Multis
 					}
 					catch( Exception e )
 					{
-						Console.WriteLine( e );
+						stdout.printf( e );
 
 						try
 						{

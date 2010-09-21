@@ -133,7 +133,7 @@ namespace Server.Regions
 		{
 			m_GuardType = DefaultGuardType;
 		}
-		
+
 		public GuardedRegion( XmlElement xml, Map map, Region parent ) : base( xml, map, parent )
 		{
 			XmlElement el = xml["guards"];
@@ -142,7 +142,7 @@ namespace Server.Regions
 			{
 				if ( !typeof( Mobile ).IsAssignableFrom( m_GuardType ) )
 				{
-					Console.WriteLine( "Invalid guard type for region '{0}'", this );
+					stdout.printf( "Invalid guard type for region '{0}'", this );
 					m_GuardType = DefaultGuardType;
 				}
 			}

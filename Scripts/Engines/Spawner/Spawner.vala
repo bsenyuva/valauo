@@ -11,7 +11,7 @@ namespace Server.Mobiles
 	{
 		private int m_Team;
 		private int m_HomeRange;
-		private int m_WalkingRange = -1; 
+		private int m_WalkingRange = -1;
 		private int m_Count;
 		private TimeSpan m_MinDelay;
 		private TimeSpan m_MaxDelay;
@@ -24,7 +24,7 @@ namespace Server.Mobiles
 		private WayPoint m_WayPoint;
 
 		public bool IsFull{ get{ return ( m_Creatures != null && m_Creatures.Count >= m_Count ); } }
-		
+
 		public List<string> CreaturesName
 		{
 			get { return m_CreaturesName; }
@@ -49,7 +49,7 @@ namespace Server.Mobiles
 
 			s.m_CreaturesName = new List<string>( m_CreaturesName );
         }
-		
+
 		[CommandProperty( AccessLevel.GameMaster )]
 		public int Count
 		{
@@ -92,12 +92,12 @@ namespace Server.Mobiles
 			set { m_HomeRange = value; InvalidateProperties(); }
 		}
 
-		[CommandProperty( AccessLevel.GameMaster )] 
-		public int WalkingRange 
-		{ 
-		   get { return m_WalkingRange; } 
-		   set { m_WalkingRange = value; InvalidateProperties(); } 
-		} 
+		[CommandProperty( AccessLevel.GameMaster )]
+		public int WalkingRange
+		{
+		   get { return m_WalkingRange; }
+		   set { m_WalkingRange = value; InvalidateProperties(); }
+		}
 
 		[CommandProperty( AccessLevel.GameMaster )]
 		public int Team
@@ -193,7 +193,7 @@ namespace Server.Mobiles
 			m_Creatures = new List<IEntity>();
 			DoTimer( TimeSpan.FromSeconds( 1 ) );
 		}
-			
+
 		public Spawner( Serial serial ) : base( serial )
 		{
 		}
@@ -217,7 +217,7 @@ namespace Server.Mobiles
 
 				list.Add( 1060656, m_Count.ToString() ); // amount to make: ~1_val~
 				list.Add( 1061169, m_HomeRange.ToString() ); // range ~1_val~
-            	list.Add( 1060658, "walking range\t{0}", m_WalkingRange ); // ~1_val~: ~2_val~ 
+            	list.Add( 1060658, "walking range\t{0}", m_WalkingRange ); // ~1_val~: ~2_val~
 
 				list.Add( 1060659, "group\t{0}", m_Group ); // ~1_val~: ~2_val~
 				list.Add( 1060660, "team\t{0}", m_Team ); // ~1_val~: ~2_val~
@@ -337,7 +337,7 @@ namespace Server.Mobiles
 				Spawn();
 			}
 		}
-		
+
 		public void Respawn()
 		{
 			RemoveCreatures();
@@ -345,13 +345,13 @@ namespace Server.Mobiles
 			for ( int i = 0; i < m_Count; i++ )
 				Spawn();
 		}
-		
+
 		public void Spawn()
 		{
 			if ( CreaturesNameCount > 0 )
 				Spawn( Utility.Random( CreaturesNameCount ) );
 		}
-		
+
 		public void Spawn( string creatureName )
 		{
 			for ( int i = 0; i < m_CreaturesName.Count; i++ )
@@ -409,7 +409,7 @@ namespace Server.Mobiles
 				Mobile m = (Mobile)ent;
 
 				m_Creatures.Add( m );
-				
+
 
 				Point3D loc = ( m is BaseVendor ? this.Location : GetSpawnPosition() );
 
@@ -422,7 +422,7 @@ namespace Server.Mobiles
 				if ( m is BaseCreature )
 				{
 					BaseCreature c = (BaseCreature)m;
-					
+
 					if( m_WalkingRange >= 0 )
 						c.RangeHome = m_WalkingRange;
 					else
@@ -553,7 +553,7 @@ namespace Server.Mobiles
 
 			InvalidateProperties();
 		}
-		
+
 		public void RemoveCreatures()
 		{
 			Defrag();
@@ -563,7 +563,7 @@ namespace Server.Mobiles
 
 			InvalidateProperties();
 		}
-		
+
 		public void BringToHome()
 		{
 			Defrag();
@@ -595,7 +595,7 @@ namespace Server.Mobiles
 			if ( m_Timer != null )
 				m_Timer.Stop();
 		}
-		
+
 		public override void Serialize( GenericWriter writer )
 		{
 			base.Serialize( writer );
@@ -613,7 +613,7 @@ namespace Server.Mobiles
 			writer.Write( m_Team );
 			writer.Write( m_HomeRange );
 			writer.Write( m_Running );
-			
+
 			if ( m_Running )
 				writer.WriteDeltaTime( m_End );
 
@@ -664,7 +664,7 @@ namespace Server.Mobiles
 				case 1:
 				{
 					m_Group = reader.ReadBool();
-					
+
 					goto case 0;
 				}
 
@@ -681,7 +681,7 @@ namespace Server.Mobiles
 
 					if ( m_Running )
 						ts = reader.ReadDeltaTime() - DateTime.Now;
-					
+
 					int size = reader.ReadInt();
 
 					m_CreaturesName = new List<string>( size );
@@ -757,7 +757,7 @@ namespace Server.Mobiles
 			{
 				try
 				{
-					Console.WriteLine( "Warning: {0} bad spawns detected, logged: 'badspawn.log'", m_List.Count );
+					stdout.printf( "Warning: {0} bad spawns detected, logged: 'badspawn.log'", m_List.Count );
 
 					using ( StreamWriter op = new StreamWriter( "badspawn.log", true ) )
 					{

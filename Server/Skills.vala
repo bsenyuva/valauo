@@ -155,7 +155,7 @@ namespace Server
 
 			if ( m_Lock < SkillLock.Up || m_Lock > SkillLock.Locked )
 			{
-				Console.WriteLine( "Bad skill lock -> {0}.{1}", owner.Owner, m_Lock );
+				stdout.printf( "Bad skill lock -> {0}.{1}", owner.Owner, m_Lock );
 				m_Lock = SkillLock.Up;
 			}
 		}
@@ -861,7 +861,7 @@ namespace Server
 		[CommandProperty( AccessLevel.Counselor, AccessLevel.GameMaster )]
 		public int Cap
 		{
-			get{ return m_Cap; } 
+			get{ return m_Cap; }
 			set{ m_Cap = value; }
 		}
 

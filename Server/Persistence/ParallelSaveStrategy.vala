@@ -322,7 +322,7 @@ namespace Server {
 
 					completionEvent.Set();
 				} catch ( Exception ex ) {
-					Console.WriteLine( ex );
+					stdout.printf( ex );
 				}
 			}
 

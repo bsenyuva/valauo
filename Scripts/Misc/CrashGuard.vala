@@ -50,9 +50,9 @@ namespace Server.Misc
 			message.Attachments.Add( new Attachment( filePath ) );
 
 			if ( Email.Send( message ) )
-				Console.WriteLine( "done" );
+				stdout.printf( "done" );
 			else
-				Console.WriteLine( "failed" );
+				stdout.printf( "failed" );
 		}
 
 		private static string GetRoot()
@@ -84,13 +84,13 @@ namespace Server.Misc
 			try
 			{
 				Process.Start( Core.ExePath, Core.Arguments );
-				Console.WriteLine( "done" );
+				stdout.printf( "done" );
 
 				e.Close = true;
 			}
 			catch
 			{
-				Console.WriteLine( "failed" );
+				stdout.printf( "failed" );
 			}
 		}
 
@@ -157,11 +157,11 @@ namespace Server.Misc
 				CopyFile( rootOrigin, rootBackup, "Regions/Regions.bin" );
 				CopyFile( rootOrigin, rootBackup, "Regions/Regions.idx" );
 
-				Console.WriteLine( "done" );
+				stdout.printf( "done" );
 			}
 			catch
 			{
-				Console.WriteLine( "failed" );
+				stdout.printf( "failed" );
 			}
 		}
 
@@ -232,14 +232,14 @@ namespace Server.Misc
 					}
 				}
 
-				Console.WriteLine( "done" );
+				stdout.printf( "done" );
 
 				if ( Email.CrashAddresses != null )
 					SendEmail( filePath );
 			}
 			catch
 			{
-				Console.WriteLine( "failed" );
+				stdout.printf( "failed" );
 			}
 		}
 

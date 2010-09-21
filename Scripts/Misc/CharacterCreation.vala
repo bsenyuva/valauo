@@ -619,7 +619,7 @@ namespace Server.Misc
 
 			if ( newChar == null )
 			{
-				Console.WriteLine( "Login: {0}: Character creation failed, account full", args.State );
+				stdout.printf( "Login: {0}: Character creation failed, account full", args.State );
 				return;
 			}
 
@@ -696,9 +696,9 @@ namespace Server.Misc
 
 			newChar.MoveToWorld( city.Location, city.Map );
 
-			Console.WriteLine( "Login: {0}: New character being created (account={1})", args.State, args.Account.Username );
-			Console.WriteLine( " - Character: {0} (serial={1})", newChar.Name, newChar.Serial );
-			Console.WriteLine( " - Started: {0} {1} in {2}", city.City, city.Location, city.Map.ToString() );
+			stdout.printf( "Login: {0}: New character being created (account={1})", args.State, args.Account.Username );
+			stdout.printf( " - Character: {0} (serial={1})", newChar.Name, newChar.Serial );
+			stdout.printf( " - Started: {0} {1} in {2}", city.City, city.Location, city.Map.ToString() );
 
 			new WelcomeTimer( newChar ).Start();
 		}
@@ -761,14 +761,14 @@ namespace Server.Misc
 					}
 					else
 					{
-						useHaven = true; 
+						useHaven = true;
 
 						new BadStartMessage( m, 1062205 );
 						/*
-						 * Unfortunately you are playing on a *NON-Age-Of-Shadows* game 
-						 * installation and cannot be transported to Malas.  
-						 * You will not be able to take your new player quest in Malas 
-						 * without an AOS client.  You are now being taken to the city of 
+						 * Unfortunately you are playing on a *NON-Age-Of-Shadows* game
+						 * installation and cannot be transported to Malas.
+						 * You will not be able to take your new player quest in Malas
+						 * without an AOS client.  You are now being taken to the city of
 						 * Haven on the Trammel facet.
 						 * */
 					}
@@ -791,10 +791,10 @@ namespace Server.Misc
 
 						new BadStartMessage( m, 1063487 );
 						/*
-						 * Unfortunately you are playing on a *NON-Samurai-Empire* game 
-						 * installation and cannot be transported to Tokuno. 
-						 * You will not be able to take your new player quest in Tokuno 
-						 * without an SE client. You are now being taken to the city of 
+						 * Unfortunately you are playing on a *NON-Samurai-Empire* game
+						 * installation and cannot be transported to Tokuno.
+						 * You will not be able to take your new player quest in Tokuno
+						 * without an SE client. You are now being taken to the city of
 						 * Haven on the Trammel facet.
 						 * */
 					}
@@ -813,10 +813,10 @@ namespace Server.Misc
 
 						new BadStartMessage( m, 1063487 );
 						/*
-						 * Unfortunately you are playing on a *NON-Samurai-Empire* game 
-						 * installation and cannot be transported to Tokuno. 
-						 * You will not be able to take your new player quest in Tokuno 
-						 * without an SE client. You are now being taken to the city of 
+						 * Unfortunately you are playing on a *NON-Samurai-Empire* game
+						 * installation and cannot be transported to Tokuno.
+						 * You will not be able to take your new player quest in Tokuno
+						 * without an SE client. You are now being taken to the city of
 						 * Haven on the Trammel facet.
 						 * */
 					}
@@ -1046,7 +1046,7 @@ namespace Server.Misc
 
 					regs.LootType = LootType.Regular;
 
-					
+
 					EquipItem( new BoneHelm() );
 
 					if ( elf )
@@ -1117,7 +1117,7 @@ namespace Server.Misc
 
 					break;
 				}
-					
+
 				case 6: // Samurai
 				{
 					addSkillItems = false;
@@ -1144,12 +1144,12 @@ namespace Server.Misc
 				{
 					addSkillItems = false;
 					EquipItem( new Kasa() );
-					
+
 					int[] hues = new int[] { 0x1A8, 0xEC, 0x99, 0x90, 0xB5, 0x336, 0x89	};
 					//TODO: Verify that's ALL the hues for that above.
 
 					EquipItem( new TattsukeHakama( hues[Utility.Random(hues.Length)] ) );
-					
+
 					EquipItem( new HakamaShita( 0x2C3 ) );
 					EquipItem( new NinjaTabi( 0x2C3 ) );
 
@@ -1318,7 +1318,7 @@ namespace Server.Misc
 				}
 				case SkillName.AnimalLore:
 				{
-					
+
 
 					int hue = Utility.RandomBlueHue();
 
@@ -1346,7 +1346,7 @@ namespace Server.Misc
 						EquipItem( new ElvenCompositeLongbow() );
 					else
 						EquipItem( new Bow() );
-					
+
 					break;
 				}
 				case SkillName.ArmsLore:

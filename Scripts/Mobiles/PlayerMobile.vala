@@ -85,10 +85,10 @@ namespace Server.Mobiles
 			}
 
 			public DateTime TimeStamp { get{ return m_Stamp; } }
-			public int Count 
-			{ 
-				get { return m_Count; } 
-				set	{ m_Count = value; m_Stamp = DateTime.Now; } 
+			public int Count
+			{
+				get { return m_Count; }
+				set	{ m_Count = value; m_Stamp = DateTime.Now; }
 			}
 		}
 
@@ -103,12 +103,12 @@ namespace Server.Mobiles
 		private bool m_IsStealthing; // IsStealthing should be moved to Server.Mobiles
 		private bool m_IgnoreMobiles; // IgnoreMobiles should be moved to Server.Mobiles
 
-		/* 
+		/*
 		 * a value of zero means, that the mobile is not executing the spell. Otherwise,
-		 * the value should match the BaseMana required 
+		 * the value should match the BaseMana required
 		*/
 		private int m_ExecutesLightningStrike; // move to Server.Mobiles??
-		
+
 		private DateTime m_LastOnline;
 		private Server.Guilds.RankDefinition m_GuildRank;
 
@@ -121,13 +121,13 @@ namespace Server.Mobiles
 		public List<Mobile> AutoStabled { get { return m_AutoStabled; } }
 
 		public List<Mobile> AllFollowers
-		{ 
+		{
 			get
 			{
 				if( m_AllFollowers == null )
-					m_AllFollowers = new List<Mobile>();; 
+					m_AllFollowers = new List<Mobile>();;
 				return m_AllFollowers;
-			} 
+			}
 		}
 
 		public Server.Guilds.RankDefinition GuildRank
@@ -137,7 +137,7 @@ namespace Server.Mobiles
 				if( this.AccessLevel >= AccessLevel.GameMaster )
 					return Server.Guilds.RankDefinition.Leader;
 				else
-					return m_GuildRank; 
+					return m_GuildRank;
 			}
 			set{ m_GuildRank = value; }
 		}
@@ -175,7 +175,7 @@ namespace Server.Mobiles
 			get { return m_IsStealthing; }
 			set { m_IsStealthing = value; }
 		}
-		
+
 		[CommandProperty( AccessLevel.GameMaster )]
 		public bool IgnoreMobiles // IgnoreMobiles should be moved to Server.Mobiles
 		{
@@ -192,7 +192,7 @@ namespace Server.Mobiles
 				}
 			}
 		}
-		
+
 		[CommandProperty( AccessLevel.GameMaster )]
 		public NpcGuild NpcGuild
 		{
@@ -403,7 +403,7 @@ namespace Server.Mobiles
 			get{ return m_AnkhNextUse; }
 			set{ m_AnkhNextUse = value; }
 		}
-		
+
 		[CommandProperty( AccessLevel.GameMaster )]
 		public TimeSpan DisguiseTimeLeft
 		{
@@ -467,16 +467,16 @@ namespace Server.Mobiles
 				return false;
 
 			IPooledEnumerable mobiles = Map.GetMobilesInRange( location, 0 );
-			
-			foreach ( Mobile m in mobiles ) 
-			{ 
+
+			foreach ( Mobile m in mobiles )
+			{
 				if ( m.Z >= location.Z && m.Z < location.Z + 16 )
 				{
 					mobiles.Free();
 					return false;
 				}
 			}
-			
+
 			mobiles.Free();
 
 			BounceInfo bi = item.GetBounce();
@@ -532,24 +532,24 @@ namespace Server.Mobiles
 
 			return true;
 		}
-		
+
 		public override int GetPacketFlags()
 		{
 			int flags = base.GetPacketFlags();
-			
+
 			if ( m_IgnoreMobiles )
 				flags |= 0x10;
-			
+
 			return flags;
 		}
-		
+
 		public override int GetOldPacketFlags()
 		{
 			int flags = base.GetOldPacketFlags();
-			
+
 			if ( m_IgnoreMobiles )
 				flags |= 0x10;
-			
+
 			return flags;
 		}
 
@@ -948,7 +948,7 @@ namespace Server.Mobiles
 			}
 			catch ( Exception e )
 			{
-				Console.WriteLine( e );
+				stdout.printf( e );
 			}
 			finally
 			{
@@ -995,7 +995,7 @@ namespace Server.Mobiles
 				pm.BedrollLogout = false;
 				pm.LastOnline = DateTime.Now;
 			}
-			
+
 			DisguiseTimers.StartTimer( e.Mobile );
 
 			Timer.DelayCall( TimeSpan.Zero, new TimerStateCallback( ClearSpecialMovesCallback ), e.Mobile );
@@ -1049,7 +1049,7 @@ namespace Server.Mobiles
 				pm.m_SpeechLog = null;
 				pm.LastOnline = DateTime.Now;
 			}
-			
+
 			DisguiseTimers.StopTimer( from );
 		}
 
@@ -1061,7 +1061,7 @@ namespace Server.Mobiles
 			Spells.Sixth.InvisibilitySpell.RemoveTimer( this );
 
 			base.RevealingAction();
-			
+
 			m_IsStealthing = false; // IsStealthing should be moved to Server.Mobiles
 		}
 
@@ -1354,7 +1354,7 @@ namespace Server.Mobiles
 		{
 			SkillName.ArmsLore,	SkillName.Begging, SkillName.Discordance, SkillName.Forensics,
 			SkillName.Inscribe, SkillName.ItemID, SkillName.Meditation, SkillName.Peacemaking,
-			SkillName.Provocation, SkillName.RemoveTrap, SkillName.SpiritSpeak, SkillName.Stealing,	
+			SkillName.Provocation, SkillName.RemoveTrap, SkillName.SpiritSpeak, SkillName.Stealing,
 			SkillName.TasteID
 		};
 
@@ -1458,12 +1458,12 @@ namespace Server.Mobiles
 			}
 			if ( from != this )
 			{
-					
+
 				if ( Alive && Core.Expansion >= Expansion.AOS )
 					list.Add( new AddToPartyEntry( from, this ) );
-			
+
 				BaseHouse curhouse = BaseHouse.FindHouseAt( this );
-			
+
 				if( curhouse != null )
 				{
 					if ( Alive && Core.Expansion >= Expansion.AOS && curhouse.IsAosRules && curhouse.IsFriend( from ) )
@@ -1997,7 +1997,7 @@ namespace Server.Mobiles
 			if ( this.Alive && !wasAlive )
 			{
 				Item deathRobe = new DeathRobe();
-				
+
 				if ( !EquipItem( deathRobe ) )
 					deathRobe.Delete();
 			}
@@ -2583,13 +2583,13 @@ namespace Server.Mobiles
 
 					goto case 27;
 				}
-				case 27: 
+				case 27:
 				{
 					m_AnkhNextUse = reader.ReadDateTime();
 
 					goto case 26;
 				}
-				case 26: 
+				case 26:
 				{
 					m_AutoStabled = reader.ReadStrongMobileList();
 
@@ -2820,7 +2820,7 @@ namespace Server.Mobiles
 
 			if( m_ChampionTitles == null )
 				m_ChampionTitles = new ChampionTitleInfo();
-			
+
 			if ( AccessLevel > AccessLevel.Player )
 				m_IgnoreMobiles = true;
 
@@ -2840,10 +2840,10 @@ namespace Server.Mobiles
 			if( Hidden )	//Hiding is the only buff where it has an effect that's serialized.
 				AddBuff( new BuffInfo( BuffIcon.HidingAndOrStealth, 1075655 ) );
 		}
-		
+
 		public override void Serialize( GenericWriter writer )
 		{
-			//cleanup our anti-macro table 
+			//cleanup our anti-macro table
 			foreach ( Hashtable t in m_AntiMacroTable.Values )
 			{
 				ArrayList remove = new ArrayList();
@@ -2875,7 +2875,7 @@ namespace Server.Mobiles
 			CheckAtrophies( this );
 
 			base.Serialize( writer );
-			
+
 			writer.Write( (int) 28 ); // version
 
 			writer.Write( (DateTime) m_PeacedUntil );
@@ -3048,7 +3048,7 @@ namespace Server.Mobiles
 				faction.RemoveMember( this );
 
 			BaseHouse.HandleDeletion( this );
-			
+
 			DisguiseTimers.RemoveTimer( this );
 		}
 
@@ -3154,7 +3154,7 @@ namespace Server.Mobiles
 					else if( AllowedStealthSteps-- <= 0 )
 					{
 						Server.SkillHandlers.Stealth.OnUse( this );
-					}			
+					}
 				}
 				else
 				{
@@ -3312,7 +3312,7 @@ namespace Server.Mobiles
 				IgnoreMobiles = false;
 			else
 				IgnoreMobiles = true;
-			
+
 			InvalidateMyRunUO();
 		}
 
@@ -3946,7 +3946,7 @@ namespace Server.Mobiles
 
 			[CommandProperty( AccessLevel.GameMaster )]
 			public int VerminHorde { get { return GetValue( ChampionSpawnType.VerminHorde ); } set { SetValue( ChampionSpawnType.VerminHorde, value ); } }
-			
+
 			[CommandProperty( AccessLevel.GameMaster )]
 			public int Harrower { get { return m_Harrower; } set { m_Harrower = value; } }
 
@@ -4048,10 +4048,10 @@ namespace Server.Mobiles
 		#region Recipes
 
 		private Dictionary<int, bool> m_AcquiredRecipes;
-		
+
 		public virtual bool HasRecipe( Recipe r )
 		{
-			if( r == null ) 
+			if( r == null )
 				return false;
 
 			return HasRecipe( r.ID );
@@ -4083,11 +4083,11 @@ namespace Server.Mobiles
 		{
 			m_AcquiredRecipes = null;
 		}
-	
+
 		[CommandProperty( AccessLevel.GameMaster )]
 		public int KnownRecipes
 		{
-			get 
+			get
 			{
 				if( m_AcquiredRecipes == null )
 					return 0;
@@ -4095,7 +4095,7 @@ namespace Server.Mobiles
 				return m_AcquiredRecipes.Count;
 			}
 		}
-	
+
 
 		#endregion
 
@@ -4215,7 +4215,7 @@ namespace Server.Mobiles
 
 			if ( !Alive )
 			{
-				SendLocalizedMessage( 1076251 ); // Your pet was unable to join you while you are a ghost.  Please re-login once you have ressurected to claim your pets.				
+				SendLocalizedMessage( 1076251 ); // Your pet was unable to join you while you are a ghost.  Please re-login once you have ressurected to claim your pets.
 				return;
 			}
 

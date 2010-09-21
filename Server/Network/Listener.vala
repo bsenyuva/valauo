@@ -76,26 +76,26 @@ namespace Server.Network
 						IPInterfaceProperties properties = adapter.GetIPProperties();
 
 						foreach ( IPAddressInformation unicast in properties.UnicastAddresses ) {
-							Console.WriteLine( "Listening: {0}:{1}", unicast.Address, ipep.Port );
+							stdout.printf( "Listening: {0}:{1}", unicast.Address, ipep.Port );
 						}
 					}
-					
+
 					/*
 					try {
-						Console.WriteLine( "Listening: {0}:{1}", IPAddress.Loopback, ipep.Port );
+						stdout.printf( "Listening: {0}:{1}", IPAddress.Loopback, ipep.Port );
 
 						IPHostEntry iphe = Dns.GetHostEntry( Dns.GetHostName() );
 
 						IPAddress[] ip = iphe.AddressList;
 
 						for ( int i = 0; i < ip.Length; ++i )
-							Console.WriteLine( "Listening: {0}:{1}", ip[i], ipep.Port );
+							stdout.printf( "Listening: {0}:{1}", ip[i], ipep.Port );
 					}
 					catch { }
 					*/
 				}
 				else {
-					Console.WriteLine( "Listening: {0}:{1}", ipep.Address, ipep.Port );
+					stdout.printf( "Listening: {0}:{1}", ipep.Address, ipep.Port );
 				}
 
 				IAsyncResult res = s.BeginAccept( m_OnAccept, s );
@@ -108,14 +108,14 @@ namespace Server.Network
 					SocketException se = (SocketException)e;
 
 					if ( se.ErrorCode == 10048 ) { // WSAEADDRINUSE
-						Console.WriteLine( "Listener Failed: {0}:{1} (In Use)", ipep.Address, ipep.Port ); 
+						stdout.printf( "Listener Failed: {0}:{1} (In Use)", ipep.Address, ipep.Port );
 					}
 					else if ( se.ErrorCode == 10049 ) { // WSAEADDRNOTAVAIL
-						Console.WriteLine( "Listener Failed: {0}:{1} (Unavailable)", ipep.Address, ipep.Port );
+						stdout.printf( "Listener Failed: {0}:{1} (Unavailable)", ipep.Address, ipep.Port );
 					}
 					else {
-						Console.WriteLine( "Listener Exception:" );
-						Console.WriteLine( e );
+						stdout.printf( "Listener Exception:" );
+						stdout.printf( e );
 					}
 				}
 

@@ -90,18 +90,18 @@ namespace Server.Engines.MyRunUO
 									try{ transact.Commit(); }
 									catch ( Exception commitException )
 									{
-										Console.WriteLine( "MyRunUO: Exception caught when committing transaction" );
-										Console.WriteLine( commitException );
+										stdout.printf( "MyRunUO: Exception caught when committing transaction" );
+										stdout.printf( commitException );
 
 										try
 										{
 											transact.Rollback();
-											Console.WriteLine( "MyRunUO: Transaction has been rolled back" );
+											stdout.printf( "MyRunUO: Transaction has been rolled back" );
 										}
 										catch ( Exception rollbackException )
 										{
-											Console.WriteLine( "MyRunUO: Exception caught when rolling back transaction" );
-											Console.WriteLine( rollbackException );
+											stdout.printf( "MyRunUO: Exception caught when rolling back transaction" );
+											stdout.printf( rollbackException );
 										}
 									}
 								}
@@ -118,7 +118,7 @@ namespace Server.Engines.MyRunUO
 								try{ m_Sync.Close(); }
 								catch{}
 
-								Console.WriteLine( m_CompletionString, (DateTime.Now - start).TotalSeconds );
+								stdout.printf( m_CompletionString, (DateTime.Now - start).TotalSeconds );
 								m_HasCompleted = true;
 
 								return;
@@ -155,8 +155,8 @@ namespace Server.Engines.MyRunUO
 									try{ m_Sync.Close(); }
 									catch{}
 
-									Console.WriteLine( "MyRunUO: Unable to connect to the database" );
-									Console.WriteLine( e );
+									stdout.printf( "MyRunUO: Unable to connect to the database" );
+									stdout.printf( e );
 									m_HasCompleted = true;
 									return;
 								}
@@ -184,8 +184,8 @@ namespace Server.Engines.MyRunUO
 					{
 						if ( shouldWriteException )
 						{
-							Console.WriteLine( "MyRunUO: Exception caught in database thread" );
-							Console.WriteLine( e );
+							stdout.printf( "MyRunUO: Exception caught in database thread" );
+							stdout.printf( e );
 							shouldWriteException = false;
 						}
 					}

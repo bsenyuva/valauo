@@ -123,7 +123,7 @@ namespace Server
 			}
 			else
 			{
-				Console.WriteLine( "Warning: Multi data files not found" );
+				stdout.printf( "Warning: Multi data files not found" );
 
 				m_Components = new MultiComponentList[0];
 			}
