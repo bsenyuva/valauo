@@ -35,7 +35,7 @@ namespace Server.Engines.Quests
 				}
 				catch ( Exception ex )
 				{
-					Console.WriteLine( "Error creating quest {0}: {1}", m_Quest, ex );
+					stdout.printf( "Error creating quest {0}: {1}", m_Quest, ex );
 				}
 			}
 		}

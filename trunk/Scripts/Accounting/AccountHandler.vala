@@ -200,7 +200,7 @@ namespace Server.Misc
 				}
 				else
 				{
-					Console.WriteLine( "Client: {0}: Deleting character {1} (0x{2:X})", state, index, m.Serial.Value );
+					stdout.printf( "Client: {0}: Deleting character {1} (0x{2:X})", state, index, m.Serial.Value );
 
 					acct.Comments.Add( new AccountComment( "System", String.Format( "Character #{0} {1} deleted by {2}", index + 1, m, state ) ) );
 
@@ -242,7 +242,7 @@ namespace Server.Misc
 
 				return m_IPTable;
 			}
-		}	
+		}
 
 		private static Account CreateAccount( NetState state, string un, string pw )
 		{
@@ -262,11 +262,11 @@ namespace Server.Misc
 
 			if ( !CanCreate( state.Address ) )
 			{
-				Console.WriteLine( "Login: {0}: Account '{1}' not created, ip already has {2} account{3}.", state, un, MaxAccountsPerIP, MaxAccountsPerIP == 1 ? "" : "s" );
+				stdout.printf( "Login: {0}: Account '{1}' not created, ip already has {2} account{3}.", state, un, MaxAccountsPerIP, MaxAccountsPerIP == 1 ? "" : "s" );
 				return null;
 			}
 
-			Console.WriteLine( "Login: {0}: Creating new account '{1}'", state, un );
+			stdout.printf( "Login: {0}: Creating new account '{1}'", state, un );
 
 			Account a = new Account( un, pw );
 
@@ -280,7 +280,7 @@ namespace Server.Misc
 				e.Accepted = false;
 				e.RejectReason = ALRReason.InUse;
 
-				Console.WriteLine( "Login: {0}: Past IP limit threshold", e.State );
+				stdout.printf( "Login: {0}: Past IP limit threshold", e.State );
 
 				using ( StreamWriter op = new StreamWriter( "ipLimits.log", true ) )
 					op.WriteLine( "{0}\tPast IP limit threshold\t{1}", e.State, DateTime.Now );
@@ -296,7 +296,7 @@ namespace Server.Misc
 
 			if ( acct == null )
 			{
-				if ( AutoAccountCreation && un.Trim().Length > 0 )	//To prevent someone from making an account of just '' or a bunch of meaningless spaces 
+				if ( AutoAccountCreation && un.Trim().Length > 0 )	//To prevent someone from making an account of just '' or a bunch of meaningless spaces
 				{
 					e.State.Account = acct = CreateAccount( e.State, un, pw );
 					e.Accepted = acct == null ? false : acct.CheckAccess( e.State );
@@ -306,28 +306,28 @@ namespace Server.Misc
 				}
 				else
 				{
-					Console.WriteLine( "Login: {0}: Invalid username '{1}'", e.State, un );
+					stdout.printf( "Login: {0}: Invalid username '{1}'", e.State, un );
 					e.RejectReason = ALRReason.Invalid;
 				}
 			}
 			else if ( !acct.HasAccess( e.State ) )
 			{
-				Console.WriteLine( "Login: {0}: Access denied for '{1}'", e.State, un );
+				stdout.printf( "Login: {0}: Access denied for '{1}'", e.State, un );
 				e.RejectReason = ( m_LockdownLevel > AccessLevel.Player ? ALRReason.BadComm : ALRReason.BadPass );
 			}
 			else if ( !acct.CheckPassword( pw ) )
 			{
-				Console.WriteLine( "Login: {0}: Invalid password for '{1}'", e.State, un );
+				stdout.printf( "Login: {0}: Invalid password for '{1}'", e.State, un );
 				e.RejectReason = ALRReason.BadPass;
 			}
 			else if ( acct.Banned )
 			{
-				Console.WriteLine( "Login: {0}: Banned account '{1}'", e.State, un );
+				stdout.printf( "Login: {0}: Banned account '{1}'", e.State, un );
 				e.RejectReason = ALRReason.Blocked;
 			}
 			else
 			{
-				Console.WriteLine( "Login: {0}: Valid credentials for '{1}'", e.State, un );
+				stdout.printf( "Login: {0}: Valid credentials for '{1}'", e.State, un );
 				e.State.Account = acct;
 				e.Accepted = true;
 
@@ -344,7 +344,7 @@ namespace Server.Misc
 			{
 				e.Accepted = false;
 
-				Console.WriteLine( "Login: {0}: Past IP limit threshold", e.State );
+				stdout.printf( "Login: {0}: Past IP limit threshold", e.State );
 
 				using ( StreamWriter op = new StreamWriter( "ipLimits.log", true ) )
 					op.WriteLine( "{0}\tPast IP limit threshold\t{1}", e.State, DateTime.Now );
@@ -363,24 +363,24 @@ namespace Server.Misc
 			}
 			else if ( !acct.HasAccess( e.State ) )
 			{
-				Console.WriteLine( "Login: {0}: Access denied for '{1}'", e.State, un );
+				stdout.printf( "Login: {0}: Access denied for '{1}'", e.State, un );
 				e.Accepted = false;
 			}
 			else if ( !acct.CheckPassword( pw ) )
 			{
-				Console.WriteLine( "Login: {0}: Invalid password for '{1}'", e.State, un );
+				stdout.printf( "Login: {0}: Invalid password for '{1}'", e.State, un );
 				e.Accepted = false;
 			}
 			else if ( acct.Banned )
 			{
-				Console.WriteLine( "Login: {0}: Banned account '{1}'", e.State, un );
+				stdout.printf( "Login: {0}: Banned account '{1}'", e.State, un );
 				e.Accepted = false;
 			}
 			else
 			{
 				acct.LogAccess( e.State );
 
-				Console.WriteLine( "Login: {0}: Account '{1}' at character list", e.State, un );
+				stdout.printf( "Login: {0}: Account '{1}' at character list", e.State, un );
 				e.State.Account = acct;
 				e.Accepted = true;
 				e.CityInfo = StartingCities;

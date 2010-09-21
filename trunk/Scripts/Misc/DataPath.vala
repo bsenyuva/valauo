@@ -10,13 +10,13 @@ namespace Server.Misc
 		/* If you have not installed Ultima Online,
 		 * or wish the server to use a separate set of datafiles,
 		 * change the 'CustomPath' value, example:
-		 * 
+		 *
 		 * private const string CustomPath = @"C:\Program Files\Ultima Online";
 		 */
 		private static string CustomPath = null;
 
 		/* The following is a list of files which a required for proper execution:
-		 * 
+		 *
 		 * Multi.idx
 		 * Multi.mul
 		 * VerData.mul
@@ -38,13 +38,13 @@ namespace Server.Misc
 			string pathKR = GetPath( @"Origin Worlds Online\Ultima Online\KR Legacy Beta", "ExePath" ); //After KR, This is the new registry key for the 2D client
 			string pathSA = GetPath( @"Electronic Arts\EA Games\Ultima Online Stygian Abyss Classic", "InstallDir" );
 
-			if ( CustomPath != null ) 
-				Core.DataDirectories.Add( CustomPath ); 
+			if ( CustomPath != null )
+				Core.DataDirectories.Add( CustomPath );
 
-			if ( pathUO != null ) 
-				Core.DataDirectories.Add( pathUO ); 
+			if ( pathUO != null )
+				Core.DataDirectories.Add( pathUO );
 
-			if ( pathTD != null ) 
+			if ( pathTD != null )
 				Core.DataDirectories.Add( pathTD );
 
 			if ( pathKR != null )
@@ -55,7 +55,7 @@ namespace Server.Misc
 
 			if ( Core.DataDirectories.Count == 0 && !Core.Service )
 			{
-				Console.WriteLine( "Enter the Ultima Online directory:" );
+				stdout.printf( "Enter the Ultima Online directory:" );
 				Console.Write( "> " );
 
 				Core.DataDirectories.Add( Console.ReadLine() );

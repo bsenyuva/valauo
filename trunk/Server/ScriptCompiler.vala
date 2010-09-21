@@ -155,7 +155,7 @@ namespace Server
 
 			if( files.Length == 0 )
 			{
-				Console.WriteLine( "no files found." );
+				stdout.printf( "no files found." );
 				assembly = null;
 				return true;
 			}
@@ -196,7 +196,7 @@ namespace Server
 											m_AdditionalReferences.Add( assembly.Location );
 										}
 
-										Console.WriteLine( "done (cached)" );
+										stdout.printf( "done (cached)" );
 
 										return true;
 									}
@@ -299,7 +299,7 @@ namespace Server
 
 			if( files.Length == 0 )
 			{
-				Console.WriteLine( "no files found." );
+				stdout.printf( "no files found." );
 				assembly = null;
 				return true;
 			}
@@ -340,7 +340,7 @@ namespace Server
 											m_AdditionalReferences.Add( assembly.Location );
 										}
 
-										Console.WriteLine( "done (cached)" );
+										stdout.printf( "done (cached)" );
 
 										return true;
 									}
@@ -421,7 +421,7 @@ namespace Server
 
 					// Rediculous. FileName is null if the warning/error is internally generated in csc.
 					if ( string.IsNullOrEmpty( file ) ) {
-						Console.WriteLine( "ScriptCompiler: {0}: {1}", e.ErrorNumber, e.ErrorText );
+						stdout.printf( "ScriptCompiler: {0}: {1}", e.ErrorNumber, e.ErrorText );
 						continue;
 					}
 
@@ -437,9 +437,9 @@ namespace Server
 				}
 
 				if( errors.Count > 0 )
-					Console.WriteLine( "failed ({0} errors, {1} warnings)", errors.Count, warnings.Count );
+					stdout.printf( "failed ({0} errors, {1} warnings)", errors.Count, warnings.Count );
 				else
-					Console.WriteLine( "done ({0} errors, {1} warnings)", errors.Count, warnings.Count );
+					stdout.printf( "done ({0} errors, {1} warnings)", errors.Count, warnings.Count );
 
 				string scriptRoot = Path.GetFullPath( Path.Combine( Core.BaseDirectory, "Scripts" + Path.DirectorySeparatorChar ) );
 				Uri scriptRootUri = new Uri( scriptRoot );
@@ -447,7 +447,7 @@ namespace Server
 				Utility.PushColor( ConsoleColor.Yellow );
 
 				if( warnings.Count > 0 )
-					Console.WriteLine( "Warnings:" );
+					stdout.printf( "Warnings:" );
 
 				foreach( KeyValuePair<string, List<CompilerError>> kvp in warnings )
 				{
@@ -457,12 +457,12 @@ namespace Server
 					string fullPath = Path.GetFullPath( fileName );
 					string usedPath = Uri.UnescapeDataString( scriptRootUri.MakeRelativeUri( new Uri( fullPath ) ).OriginalString );
 
-					Console.WriteLine( " + {0}:", usedPath );
+					stdout.printf( " + {0}:", usedPath );
 
 					Utility.PushColor( ConsoleColor.DarkYellow );
 
 					foreach( CompilerError e in list )
-						Console.WriteLine( "    {0}: Line {1}: {3}", e.ErrorNumber, e.Line, e.Column, e.ErrorText );
+						stdout.printf( "    {0}: Line {1}: {3}", e.ErrorNumber, e.Line, e.Column, e.ErrorText );
 
 					Utility.PopColor();
 				}
@@ -472,7 +472,7 @@ namespace Server
 				Utility.PushColor( ConsoleColor.Red );
 
 				if( errors.Count > 0 )
-					Console.WriteLine( "Errors:" );
+					stdout.printf( "Errors:" );
 
 				foreach( KeyValuePair<string, List<CompilerError>> kvp in errors )
 				{
@@ -482,12 +482,12 @@ namespace Server
 					string fullPath = Path.GetFullPath( fileName );
 					string usedPath = Uri.UnescapeDataString( scriptRootUri.MakeRelativeUri( new Uri( fullPath ) ).OriginalString );
 
-					Console.WriteLine( " + {0}:", usedPath );
+					stdout.printf( " + {0}:", usedPath );
 
 					Utility.PushColor( ConsoleColor.DarkRed );
 
 					foreach( CompilerError e in list )
-						Console.WriteLine( "    {0}: Line {1}: {3}", e.ErrorNumber, e.Line, e.Column, e.ErrorText );
+						stdout.printf( "    {0}: Line {1}: {3}", e.ErrorNumber, e.Line, e.Column, e.ErrorText );
 
 					Utility.PopColor();
 				}
@@ -496,7 +496,7 @@ namespace Server
 			}
 			else
 			{
-				Console.WriteLine( "done (0 errors, 0 warnings)" );
+				stdout.printf( "done (0 errors, 0 warnings)" );
 			}
 		}
 
@@ -588,7 +588,7 @@ namespace Server
 			}
 			else
 			{
-				Console.WriteLine( "Scripts: Skipping VB.NET Scripts...done (use -vb to enable)");
+				stdout.printf( "Scripts: Skipping VB.NET Scripts...done (use -vb to enable)");
 			}
 
 			if( assemblies.Count == 0 )
@@ -600,7 +600,7 @@ namespace Server
 
 			Console.Write( "Scripts: Verifying..." );
 			Core.VerifySerialization();
-			Console.WriteLine( "done ({0} items, {1} mobiles)", Core.ScriptItems, Core.ScriptMobiles );
+			stdout.printf( "done ({0} items, {1} mobiles)", Core.ScriptItems, Core.ScriptMobiles );
 
 			return true;
 		}

@@ -307,10 +307,10 @@ namespace Server {
 							Type t = ScriptCompiler.FindTypeByFullName( typeName );
 
 							if ( t == null ) {
-								Console.WriteLine( "failed" );
+								stdout.printf( "failed" );
 
 								if ( !Core.Service ) {
-									Console.WriteLine( "Error: Type '{0}' was not found. Delete all of those types? (y/n)", typeName );
+									stdout.printf( "Error: Type '{0}' was not found. Delete all of those types? (y/n)", typeName );
 
 									if ( Console.ReadKey( true ).Key == ConsoleKey.Y ) {
 										types.Add( null );
@@ -318,9 +318,9 @@ namespace Server {
 										continue;
 									}
 
-									Console.WriteLine( "Types will not be deleted. An exception will be thrown." );
+									stdout.printf( "Types will not be deleted. An exception will be thrown." );
 								} else {
-									Console.WriteLine( "Error: Type '{0}' was not found.", typeName );
+									stdout.printf( "Error: Type '{0}' was not found.", typeName );
 								}
 
 								throw new Exception( String.Format( "Bad type '{0}'", typeName ) );
@@ -392,11 +392,11 @@ namespace Server {
 							Type t = ScriptCompiler.FindTypeByFullName( typeName );
 
 							if ( t == null ) {
-								Console.WriteLine( "failed" );
+								stdout.printf( "failed" );
 
 
 								if ( !Core.Service ) {
-									Console.WriteLine( "Error: Type '{0}' was not found. Delete all of those types? (y/n)", typeName );
+									stdout.printf( "Error: Type '{0}' was not found. Delete all of those types? (y/n)", typeName );
 
 									if ( Console.ReadKey( true ).Key == ConsoleKey.Y ) {
 										types.Add( null );
@@ -404,9 +404,9 @@ namespace Server {
 										continue;
 									}
 
-									Console.WriteLine( "Types will not be deleted. An exception will be thrown." );
+									stdout.printf( "Types will not be deleted. An exception will be thrown." );
 								} else {
-									Console.WriteLine( "Error: Type '{0}' was not found.", typeName );
+									stdout.printf( "Error: Type '{0}' was not found.", typeName );
 								}
 
 								throw new Exception( String.Format( "Bad type '{0}'", typeName ) );
@@ -605,18 +605,18 @@ namespace Server {
 
 			if ( failedItems || failedMobiles || failedGuilds )
 			{
-				Console.WriteLine( "An error was encountered while loading a saved object" );
+				stdout.printf( "An error was encountered while loading a saved object" );
 
-				Console.WriteLine( " - Type: {0}", failedType );
-				Console.WriteLine( " - Serial: {0}", failedSerial );
+				stdout.printf( " - Type: {0}", failedType );
+				stdout.printf( " - Serial: {0}", failedSerial );
 
 				if ( !Core.Service ) {
-					Console.WriteLine( "Delete the object? (y/n)" );
+					stdout.printf( "Delete the object? (y/n)" );
 
 					if ( Console.ReadKey( true ).Key == ConsoleKey.Y ) {
 						if ( failedType != typeof( BaseGuild ) )
 						{
-							Console.WriteLine( "Delete all objects of that type? (y/n)" );
+							stdout.printf( "Delete all objects of that type? (y/n)" );
 
 							if ( Console.ReadKey( true ).Key == ConsoleKey.Y )
 							{
@@ -654,12 +654,12 @@ namespace Server {
 						SaveIndex<GuildEntry>( guilds, GuildIndexPath );
 					}
 
-					Console.WriteLine( "After pressing return an exception will be thrown and the server will terminate." );
+					stdout.printf( "After pressing return an exception will be thrown and the server will terminate." );
 					Console.ReadLine();
 				}
 				else
 				{
-					Console.WriteLine( "An exception will be thrown and the server will terminate." );
+					stdout.printf( "An exception will be thrown and the server will terminate." );
 				}
 
 				throw new Exception( String.Format( "Load failed (items={0}, mobiles={1}, guilds={2}, type={3}, serial={4})", failedItems, failedMobiles, failedGuilds, failedType, failedSerial ), failed );
@@ -689,7 +689,7 @@ namespace Server {
 
 			watch.Stop();
 
-			Console.WriteLine( "done ({1} items, {2} mobiles) ({0:F2} seconds)", watch.Elapsed.TotalSeconds, m_Items.Count, m_Mobiles.Count );
+			stdout.printf( "done ({1} items, {2} mobiles) ({0:F2} seconds)", watch.Elapsed.TotalSeconds, m_Items.Count, m_Mobiles.Count );
 		}
 
 		private static void ProcessSafetyQueues()
@@ -745,7 +745,7 @@ namespace Server {
 				action, entity
 			);
 
-			Console.WriteLine( message );
+			stdout.printf( message );
 
 			try
 			{
@@ -823,7 +823,7 @@ namespace Server {
 			}
 
 			SaveStrategy strategy = SaveStrategy.Acquire();
-			Console.WriteLine( "Core: Using {0} save strategy", strategy.Name.ToLowerInvariant() );
+			stdout.printf( "Core: Using {0} save strategy", strategy.Name.ToLowerInvariant() );
 
 			Console.Write( "World: Saving..." );
 
@@ -862,7 +862,7 @@ namespace Server {
 
 			strategy.ProcessDecay();
 
-			Console.WriteLine( "done in {0:F2} seconds.", watch.Elapsed.TotalSeconds );
+			stdout.printf( "done in {0:F2} seconds.", watch.Elapsed.TotalSeconds );
 
 			if ( message )
 			{

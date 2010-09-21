@@ -263,7 +263,7 @@ namespace Server.Network
 			for ( int i = list.Count - 1; i >= 0; --i )
 			{
 				BuyItemState bis = (BuyItemState)list[i];
-		
+
 				m_Stream.Write( (int)bis.MySerial );
 				m_Stream.Write( (ushort)(bis.ItemID & 0x3FFF) );
 				m_Stream.Write( (byte)0 );//itemid offset
@@ -291,7 +291,7 @@ namespace Server.Network
 			for ( int i = list.Count - 1; i >= 0; --i )
 			{
 				BuyItemState bis = (BuyItemState)list[i];
-		
+
 				m_Stream.Write( (int)bis.MySerial );
 				m_Stream.Write( (ushort)(bis.ItemID & 0x3FFF) );
 				m_Stream.Write( (byte)0 );//itemid offset
@@ -525,7 +525,7 @@ namespace Server.Network
 
 				m_Stream.Write( (int) -3 );
 
-				if ( name == null ) 
+				if ( name == null )
 					m_Stream.Write( (ushort) 0 );
 				else
 				{
@@ -787,7 +787,7 @@ namespace Server.Network
 
 			string question = menu.Question;
 
-			if ( question == null ) 
+			if ( question == null )
 				m_Stream.Write( (byte) 0 );
 			else
 			{
@@ -808,7 +808,7 @@ namespace Server.Network
 
 				string answer = answers[i];
 
-				if ( answer == null ) 
+				if ( answer == null )
 					m_Stream.Write( (byte) 0 );
 				else
 				{
@@ -976,7 +976,7 @@ namespace Server.Network
 			}
 			else
 			{
-				Console.WriteLine( "Warning: EquipUpdate on item with !(parent is Mobile)" );
+				stdout.printf( "Warning: EquipUpdate on item with !(parent is Mobile)" );
 				parentSerial = Serial.Zero;
 			}
 
@@ -1091,7 +1091,7 @@ namespace Server.Network
 
 			m_Stream.Write( (int) item.Serial );
 
-			m_Stream.Write( (short) itemID ); 
+			m_Stream.Write( (short) itemID );
 
 			m_Stream.Write( (byte) item.Direction );
 
@@ -1626,7 +1626,7 @@ namespace Server.Network
 			}
 			else
 			{
-				Console.WriteLine( "Warning: ContainerContentUpdate on item with !(parent is Item)" );
+				stdout.printf( "Warning: ContainerContentUpdate on item with !(parent is Item)" );
 				parentSerial = Serial.Zero;
 			}
 
@@ -1658,7 +1658,7 @@ namespace Server.Network
 			}
 			else
 			{
-				Console.WriteLine( "Warning: ContainerContentUpdate on item with !(parent is Item)" );
+				stdout.printf( "Warning: ContainerContentUpdate on item with !(parent is Item)" );
 				parentSerial = Serial.Zero;
 			}
 
@@ -2967,7 +2967,7 @@ namespace Server.Network
 
 			m_Stream.Write( (int)   m.Serial );
 			m_Stream.Write( (short) 1 );
-			
+
 			m_Stream.Write( (short) 1 );
 
 			Poison p = m.Poison;
@@ -4064,7 +4064,7 @@ namespace Server.Network
 			{
 				int diff = (int)m_Stream.Length - m_Length;
 
-				Console.WriteLine( "Packet: 0x{0:X2}: Bad packet length! ({1}{2} bytes)", m_PacketID, diff >= 0 ? "+" : "", diff );
+				stdout.printf( "Packet: 0x{0:X2}: Bad packet length! ({1}{2} bytes)", m_PacketID, diff >= 0 ? "+" : "", diff );
 			}
 
 			MemoryStream ms = m_Stream.UnderlyingStream;
@@ -4078,10 +4078,10 @@ namespace Server.Network
 					m_CompiledBuffer, 0, length,
 					ref length
 				);
-			
+
 				if ( m_CompiledBuffer == null )
 				{
-					Console.WriteLine( "Warning: Compression buffer overflowed on packet 0x{0:X2} ('{1}') (length={2})", m_PacketID, GetType().Name, length );
+					stdout.printf( "Warning: Compression buffer overflowed on packet 0x{0:X2} ('{1}') (length={2})", m_PacketID, GetType().Name, length );
 					using ( StreamWriter op = new StreamWriter( "compression_overflow.log", true ) )
 					{
 						op.WriteLine( "{0} Warning: Compression buffer overflowed on packet 0x{1:X2} ('{2}') (length={3})", DateTime.Now, m_PacketID, GetType().Name, length );

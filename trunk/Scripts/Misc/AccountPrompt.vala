@@ -10,12 +10,12 @@ namespace Server.Misc
 		{
 			if ( Accounts.Count == 0 && !Core.Service )
 			{
-				Console.WriteLine( "This server has no accounts." );
+				stdout.printf( "This server has no accounts." );
 				Console.Write( "Do you want to create the owner account now? (y/n)" );
 
 				if( Console.ReadKey( true ).Key == ConsoleKey.Y )
 				{
-					Console.WriteLine();
+					stdout.printf();
 
 					Console.Write( "Username: " );
 					string username = Console.ReadLine();
@@ -26,13 +26,13 @@ namespace Server.Misc
 					Account a = new Account( username, password );
 					a.AccessLevel = AccessLevel.Owner;
 
-					Console.WriteLine( "Account created." );
+					stdout.printf( "Account created." );
 				}
 				else
 				{
-					Console.WriteLine();
+					stdout.printf();
 
-					Console.WriteLine( "Account not created." );
+					stdout.printf( "Account not created." );
 				}
 			}
 		}

@@ -11,11 +11,11 @@ namespace Server.Misc
 		/* In order to support emailing, fill in EmailServer:
 		 * Example:
 		 *  public static readonly string EmailServer = "mail.domain.com";
-		 * 
+		 *
 		 * If you want to add crash reporting emailing, fill in CrashAddresses:
 		 * Example:
 		 *  public static readonly string CrashAddresses = "first@email.here;second@email.here;third@email.here";
-		 * 
+		 *
 		 * If you want to add speech log page emailing, fill in SpeechLogPageAddresses:
 		 * Example:
 		 *  public static readonly string SpeechLogPageAddresses = "first@email.here;second@email.here;third@email.here";
@@ -68,9 +68,9 @@ namespace Server.Misc
 			MailMessage message = (MailMessage) state;
 
 			if ( Send( message ) )
-				Console.WriteLine( "Sent e-mail '{0}' to '{1}'.", message.Subject, message.To );
+				stdout.printf( "Sent e-mail '{0}' to '{1}'.", message.Subject, message.To );
 			else
-				Console.WriteLine( "Failure sending e-mail '{0}' to '{1}'.", message.Subject, message.To );
+				stdout.printf( "Failure sending e-mail '{0}' to '{1}'.", message.Subject, message.To );
 		}
 	}
 }

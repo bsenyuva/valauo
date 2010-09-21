@@ -115,7 +115,7 @@ namespace Server.Misc
 			if( Required != null )
 			{
 				Utility.PushColor( ConsoleColor.White );
-				Console.WriteLine( "Restricting client version to {0}. Action to be taken: {1}", Required, m_OldClientResponse );
+				stdout.printf( "Restricting client version to {0}. Action to be taken: {1}", Required, m_OldClientResponse );
 				Utility.PopColor();
 			}
 		}
@@ -170,7 +170,7 @@ namespace Server.Misc
 				{
 					if( state.Socket != null )
 					{
-						Console.WriteLine( "Client: {0}: Disconnecting, bad version", state );
+						stdout.printf( "Client: {0}: Disconnecting, bad version", state );
 						state.Dispose();
 					}
 				} );

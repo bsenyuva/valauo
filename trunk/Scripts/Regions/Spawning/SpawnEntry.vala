@@ -73,7 +73,7 @@ namespace Server.Regions
 			m_Running = false;
 
 			if ( m_Table.Contains( id ) )
-				Console.WriteLine( "Warning: double SpawnEntry ID '{0}'", id );
+				stdout.printf( "Warning: double SpawnEntry ID '{0}'", id );
 			else
 				m_Table[id] = this;
 		}
@@ -284,7 +284,7 @@ namespace Server.Regions
 						m_SpawnTimer.Stop();
 
 					TimeSpan delay = m_NextSpawn - DateTime.Now;
-					m_SpawnTimer = Timer.DelayCall( delay > TimeSpan.Zero ? delay : TimeSpan.Zero, new TimerCallback( TimerCallback ) ); 
+					m_SpawnTimer = Timer.DelayCall( delay > TimeSpan.Zero ? delay : TimeSpan.Zero, new TimerCallback( TimerCallback ) );
 				}
 			}
 

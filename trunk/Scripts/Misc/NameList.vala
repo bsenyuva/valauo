@@ -75,8 +75,8 @@ namespace Server
 			}
 			catch ( Exception e )
 			{
-				Console.WriteLine( "Warning: Exception caught loading name lists:" );
-				Console.WriteLine( e );
+				stdout.printf( "Warning: Exception caught loading name lists:" );
+				stdout.printf( e );
 			}
 		}
 

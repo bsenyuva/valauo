@@ -44,7 +44,7 @@ namespace Server.Accounting
 		{
 			m_Accounts[a.Username] = a;
 		}
-		
+
 		public static void Remove( string username )
 		{
 			m_Accounts.Remove( username );
@@ -72,7 +72,7 @@ namespace Server.Accounting
 				}
 				catch
 				{
-					Console.WriteLine( "Warning: Account instance load failed" );
+					stdout.printf( "Warning: Account instance load failed" );
 				}
 			}
 		}

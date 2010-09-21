@@ -42,7 +42,7 @@ namespace Server.Engines.MyRunUO
 				return;
 
 			DateTime start = DateTime.Now;
-			Console.WriteLine( "MyRunUO: Updating status database" );
+			stdout.printf( "MyRunUO: Updating status database" );
 
 			try
 			{
@@ -63,8 +63,8 @@ namespace Server.Engines.MyRunUO
 			}
 			catch ( Exception e )
 			{
-				Console.WriteLine( "MyRunUO: Error updating status database" );
-				Console.WriteLine( e );
+				stdout.printf( "MyRunUO: Error updating status database" );
+				stdout.printf( e );
 			}
 
 			if ( m_Command != null )

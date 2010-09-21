@@ -358,7 +358,7 @@ namespace Server.Commands
 				Type type = ScriptCompiler.FindTypeByName( split[i].Trim() );
 
 				if ( type == null )
-					Console.WriteLine( "Match type not found ('{0}')", split[i].Trim() );
+					stdout.printf( "Match type not found ('{0}')", split[i].Trim() );
 				else
 					list.Add( type );
 			}

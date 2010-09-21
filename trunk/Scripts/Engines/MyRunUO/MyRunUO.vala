@@ -126,7 +126,7 @@ namespace Server.Engines.MyRunUO
 			m_Collecting = new List<IAccount>();
 
 			m_StartTime = DateTime.Now;
-			Console.WriteLine( "MyRunUO: Updating character database" );
+			stdout.printf( "MyRunUO: Updating character database" );
 		}
 
 		protected override void OnTick()
@@ -138,12 +138,12 @@ namespace Server.Engines.MyRunUO
 				shouldExit = Process( DateTime.Now + TimeSpan.FromSeconds( CpuInterval * CpuPercent ) );
 
 				if ( shouldExit )
-					Console.WriteLine( "MyRunUO: Database statements compiled in {0:F2} seconds", (DateTime.Now - m_StartTime).TotalSeconds );
+					stdout.printf( "MyRunUO: Database statements compiled in {0:F2} seconds", (DateTime.Now - m_StartTime).TotalSeconds );
 			}
 			catch ( Exception e )
 			{
-				Console.WriteLine( "MyRunUO: {0}: Exception cought while processing", m_Stage );
-				Console.WriteLine( e );
+				stdout.printf( "MyRunUO: {0}: Exception cought while processing", m_Stage );
+				stdout.printf( e );
 				shouldExit = true;
 			}
 
@@ -293,7 +293,7 @@ namespace Server.Engines.MyRunUO
 
 			sb.Append( ent );
 		}
- 
+
 		private string SafeString( string input )
 		{
 			if ( input == null )
@@ -353,7 +353,7 @@ namespace Server.Engines.MyRunUO
 
 			string notoTitle = SafeString( Titles.ComputeTitle( null, mob ) );
 			string female = ( mob.Female ? "1" : "0" );
-			
+
 			bool pubBool = ( mob is PlayerMobile ) && ( ((PlayerMobile)mob).PublicMyRunUO );
 
 			string pubString = ( pubBool ? "1" : "0" );

@@ -118,7 +118,7 @@ namespace Server
 		public static int ProcessorCount { get { return m_ProcessorCount; } }
 
 		private static bool m_Unix;
-		
+
 		public static bool Unix { get { return m_Unix; } }
 
 		public static string FindDataFile( string path )
@@ -236,8 +236,8 @@ namespace Server
 
 		private static void CurrentDomain_UnhandledException( object sender, UnhandledExceptionEventArgs e )
 		{
-			Console.WriteLine( e.IsTerminating ? "Error:" : "Warning:" );
-			Console.WriteLine( e.ExceptionObject );
+			stdout.printf( e.IsTerminating ? "Error:" : "Warning:" );
+			stdout.printf( e.ExceptionObject );
 
 			if( e.IsTerminating )
 			{
@@ -271,9 +271,9 @@ namespace Server
 					}
 
 					if ( m_Service ) {
-						Console.WriteLine( "This exception is fatal." );
+						stdout.printf( "This exception is fatal." );
 					} else {
-						Console.WriteLine( "This exception is fatal, press return to exit" );
+						stdout.printf( "This exception is fatal, press return to exit" );
 						Console.ReadLine();
 					}
 				}
@@ -301,7 +301,7 @@ namespace Server
 		{
 			if( World.Saving || ( m_Service && type == ConsoleEventType.CTRL_LOGOFF_EVENT ) )
 				return true;
-			
+
 			Kill();
 
 			return true;
@@ -369,7 +369,7 @@ namespace Server
 
 			Timer.TimerThread.Set();
 
-			Console.WriteLine( "done" );
+			stdout.printf( "done" );
 		}
 
 		private static AutoResetEvent m_Signal = new AutoResetEvent( true );
@@ -431,13 +431,13 @@ namespace Server
 			Version ver = m_Assembly.GetName().Version;
 
 			// Added to help future code support on forums, as a 'check' people can ask for to it see if they recompiled core or not
-			Console.WriteLine( "RunUO - [www.runuo.com] Version {0}.{1}, Build {2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision );
-			Console.WriteLine( "Core: Running on .NET Framework Version {0}.{1}.{2}", Environment.Version.Major, Environment.Version.Minor, Environment.Version.Build );
+			stdout.printf( "RunUO - [www.runuo.com] Version {0}.{1}, Build {2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision );
+			stdout.printf( "Core: Running on .NET Framework Version {0}.{1}.{2}", Environment.Version.Major, Environment.Version.Minor, Environment.Version.Build );
 
 			string s = Arguments;
 
 			if( s.Length > 0 )
-				Console.WriteLine( "Core: Running with arguments: {0}", s );
+				stdout.printf( "Core: Running with arguments: {0}", s );
 
 			m_ProcessorCount = Environment.ProcessorCount;
 
@@ -445,12 +445,12 @@ namespace Server
 				m_MultiProcessor = true;
 
 			if( m_MultiProcessor || Is64Bit )
-				Console.WriteLine( "Core: Optimizing for {0} {2}processor{1}", m_ProcessorCount, m_ProcessorCount == 1 ? "" : "s", Is64Bit ? "64-bit " : "" );
+				stdout.printf( "Core: Optimizing for {0} {2}processor{1}", m_ProcessorCount, m_ProcessorCount == 1 ? "" : "s", Is64Bit ? "64-bit " : "" );
 
 			int platform = (int)Environment.OSVersion.Platform;
 			if( platform == 4 || platform == 128 ) { // MS 4, MONO 128
 				m_Unix = true;
-				Console.WriteLine( "Core: Unix environment detected" );
+				stdout.printf( "Core: Unix environment detected" );
 			}
 			else {
 				m_ConsoleEventHandler = new ConsoleEventHandler( OnConsoleEvent );
@@ -458,23 +458,23 @@ namespace Server
 			}
 
             if ( GCSettings.IsServerGC )
-                Console.WriteLine("Core: Server garbage collection mode enabled");
+                stdout.printf("Core: Server garbage collection mode enabled");
 
 			while( !ScriptCompiler.Compile( m_Debug, m_Cache ) )
 			{
-				Console.WriteLine( "Scripts: One or more scripts failed to compile or no script files were found." );
-				
+				stdout.printf( "Scripts: One or more scripts failed to compile or no script files were found." );
+
 				if( m_Service )
 					return;
 
-				Console.WriteLine( " - Press return to exit, or R to try again." );
-				
+				stdout.printf( " - Press return to exit, or R to try again." );
+
 				if( Console.ReadKey( true ).Key != ConsoleKey.R )
 					return;
 			}
 
 			ScriptCompiler.Invoke( "Configure" );
-			
+
 			Region.Load();
 			World.Load();
 
@@ -611,10 +611,10 @@ namespace Server
 							if( cInfo == null )
 							{
 								if( !warned )
-									Console.WriteLine( "Warning: {0}", t );
+									stdout.printf( "Warning: {0}", t );
 
 								warned = true;
-								Console.WriteLine( "       - No zero paramater constructor" );
+								stdout.printf( "       - No zero paramater constructor" );
 							}
 						}
 						*/
@@ -622,36 +622,36 @@ namespace Server
 						if( t.GetConstructor( ctorTypes ) == null )
 						{
 							if( !warned )
-								Console.WriteLine( "Warning: {0}", t );
+								stdout.printf( "Warning: {0}", t );
 
 							warned = true;
-							Console.WriteLine( "       - No serialization constructor" );
+							stdout.printf( "       - No serialization constructor" );
 						}
 
 						if( t.GetMethod( "Serialize", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly ) == null )
 						{
 							if( !warned )
-								Console.WriteLine( "Warning: {0}", t );
+								stdout.printf( "Warning: {0}", t );
 
 							warned = true;
-							Console.WriteLine( "       - No Serialize() method" );
+							stdout.printf( "       - No Serialize() method" );
 						}
 
 						if( t.GetMethod( "Deserialize", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly ) == null )
 						{
 							if( !warned )
-								Console.WriteLine( "Warning: {0}", t );
+								stdout.printf( "Warning: {0}", t );
 
 							warned = true;
-							Console.WriteLine( "       - No Deserialize() method" );
+							stdout.printf( "       - No Deserialize() method" );
 						}
 
 						if( warned )
-							Console.WriteLine();
+							stdout.printf();
 					}
 					catch
 					{
-                        Console.WriteLine( "Warning: Exception in serialization verification of type {0}", t );
+                        stdout.printf( "Warning: Exception in serialization verification of type {0}", t );
 					}
 				}
 			}
@@ -676,7 +676,7 @@ namespace Server
 			m_FileName = file;
 			using( StreamWriter writer = new StreamWriter( new FileStream( m_FileName, append ? FileMode.Append : FileMode.Create, FileAccess.Write, FileShare.Read ) ) )
 			{
-				writer.WriteLine( ">>>Logging started on {0}.", DateTime.Now.ToString( "f" ) ); //f = Tuesday, April 10, 2001 3:51 PM 
+				writer.WriteLine( ">>>Logging started on {0}.", DateTime.Now.ToString( "f" ) ); //f = Tuesday, April 10, 2001 3:51 PM
 			}
 			m_NewLine = true;
 		}

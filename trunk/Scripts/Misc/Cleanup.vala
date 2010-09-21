@@ -110,9 +110,9 @@ namespace Server.Misc
 			if ( items.Count > 0 )
 			{
 				if ( boxes > 0 )
-					Console.WriteLine( "Cleanup: Detected {0} inaccessible items, including {1} bank boxes, removing..", items.Count, boxes );
+					stdout.printf( "Cleanup: Detected {0} inaccessible items, including {1} bank boxes, removing..", items.Count, boxes );
 				else
-					Console.WriteLine( "Cleanup: Detected {0} inaccessible items, removing..", items.Count );
+					stdout.printf( "Cleanup: Detected {0} inaccessible items, removing..", items.Count );
 
 				for ( int i = 0; i < items.Count; ++i )
 					items[i].Delete();
@@ -120,7 +120,7 @@ namespace Server.Misc
 
 			if ( hairCleanup.Count > 0 )
 			{
-				Console.WriteLine( "Cleanup: Detected {0} hair and facial hair items being worn, converting to their virtual counterparts..", hairCleanup.Count );
+				stdout.printf( "Cleanup: Detected {0} hair and facial hair items being worn, converting to their virtual counterparts..", hairCleanup.Count );
 
 				for ( int i = 0; i < hairCleanup.Count; i++ )
 					hairCleanup[i].ConvertHair();
@@ -141,7 +141,7 @@ namespace Server.Misc
 				|| item is TreasureMap || item is MessageInABottle
 				|| item is BaseArmor || item is BaseWeapon
 				|| item is BaseClothing
-				|| (item is BaseJewel && Core.AOS) 
+				|| (item is BaseJewel && Core.AOS)
 				|| (item is BasePotion && Core.ML))
 				return true;
 

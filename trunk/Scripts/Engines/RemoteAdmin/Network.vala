@@ -105,7 +105,7 @@ namespace Server.RemoteAdmin
 			}
 			else if ( !IsAuth( state ) )
 			{
-				Console.WriteLine( "ADMIN: Unauthorized packet from {0}, disconnecting", state );
+				stdout.printf( "ADMIN: Unauthorized packet from {0}, disconnecting", state );
 				Disconnect( state );
 			}
 			else
@@ -119,13 +119,13 @@ namespace Server.RemoteAdmin
 		{
 			Timer.DelayCall( TimeSpan.FromSeconds( 15.0 ), new TimerStateCallback( Disconnect ), state );
 		}
-		
+
 		private static void Disconnect( object state )
 		{
 			m_Auth.Remove( state );
 			((NetState)state).Dispose();
 		}
-		
+
 		public static void Authenticate( NetState state, PacketReader pvSrc )
 		{
 			string user = pvSrc.ReadString( 30 );
@@ -135,30 +135,30 @@ namespace Server.RemoteAdmin
 			if ( a == null )
 			{
 				state.Send( new Login( LoginResponse.NoUser ) );
-				Console.WriteLine( "ADMIN: Invalid username '{0}' from {1}", user, state );
+				stdout.printf( "ADMIN: Invalid username '{0}' from {1}", user, state );
 				DelayedDisconnect( state );
 			}
 			else if ( !a.HasAccess( state ) )
 			{
 				state.Send( new Login( LoginResponse.BadIP ) );
-				Console.WriteLine( "ADMIN: Access to '{0}' from {1} denied.", user, state );
+				stdout.printf( "ADMIN: Access to '{0}' from {1} denied.", user, state );
 				DelayedDisconnect( state );
 			}
 			else if ( !a.CheckPassword( pw ) )
 			{
 				state.Send( new Login( LoginResponse.BadPass ) );
-				Console.WriteLine( "ADMIN: Invalid password '{0}' for user '{1}' from {2}", pw, user, state );
+				stdout.printf( "ADMIN: Invalid password '{0}' for user '{1}' from {2}", pw, user, state );
 				DelayedDisconnect( state );
 			}
 			else if ( a.AccessLevel < AccessLevel.Administrator || a.Banned )
 			{
-				Console.WriteLine( "ADMIN: Account '{0}' does not have admin access. Connection Denied.", user );
-				state.Send( new Login( LoginResponse.NoAccess ) ); 
+				stdout.printf( "ADMIN: Account '{0}' does not have admin access. Connection Denied.", user );
+				state.Send( new Login( LoginResponse.NoAccess ) );
 				DelayedDisconnect( state );
 			}
 			else
 			{
-				Console.WriteLine( "ADMIN: Access granted to '{0}' from {1}", user, state );
+				stdout.printf( "ADMIN: Access granted to '{0}' from {1}", user, state );
 				state.Account = a;
 				a.LogAccess( state );
 				a.LastLogin = DateTime.Now;
@@ -201,7 +201,7 @@ namespace Server.RemoteAdmin
 
 				if ( error != ZLibError.Okay )
 				{
-					Console.WriteLine( "WARNING: Unable to compress admin packet, zlib error: {0}", error );
+					stdout.printf( "WARNING: Unable to compress admin packet, zlib error: {0}", error );
 					return p;
 				}
 				else
@@ -215,7 +215,7 @@ namespace Server.RemoteAdmin
 			}
 		}
 	}
-	
+
 	public class EventTextWriter : System.IO.TextWriter
 	{
 		public delegate void OnConsoleChar( char ch );

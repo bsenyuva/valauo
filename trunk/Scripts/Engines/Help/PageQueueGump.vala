@@ -185,7 +185,7 @@ namespace Server.Engines.Help
 			}
 			catch ( Exception e )
 			{
-				Console.WriteLine( e );
+				stdout.printf( e );
 			}
 		}
 
@@ -225,7 +225,7 @@ namespace Server.Engines.Help
 				}
 				catch ( Exception e )
 				{
-					Console.WriteLine( e );
+					stdout.printf( e );
 				}
 			}
 
@@ -587,7 +587,7 @@ namespace Server.Engines.Help
 			}
 			catch ( Exception e )
 			{
-				Console.WriteLine(e);
+				stdout.printf(e);
 			}
 		}
 

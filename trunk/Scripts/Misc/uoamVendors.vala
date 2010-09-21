@@ -64,7 +64,7 @@ namespace Server
 
 						split = new string[]{ type, split[0], split[1], split[2] };
 
-						switch(split[0].ToLower()) 
+						switch(split[0].ToLower())
 						{
 							case "-healer:":
 								PlaceNPC( split[1], split[2], split[3], "Healer", "HealerGuildmaster" );
@@ -161,8 +161,8 @@ namespace Server
 							case "-beekeeper:":
 								PlaceNPC( split[1], split[2], split[3], "Beekeeper" );
 								break;
-							
-							
+
+
 								// Guilds & Misc
 							case "-tinkers guild:":
 								PlaceNPC( split[1], split[2], split[3], "TinkerGuildmaster" );
@@ -230,7 +230,7 @@ namespace Server
 							case "+town:":
 								break;
 							/*default:
-								Console.WriteLine(split[0]);
+								stdout.printf(split[0]);
 								break;*/
 						}
 					}
@@ -271,7 +271,7 @@ namespace Server
 					MakeSpawner( types, x, y, Map.Malas );
 					break;
 				default:
-					Console.WriteLine( "UOAM Vendor Parser: Warning, unknown map {0}", map );
+					stdout.printf( "UOAM Vendor Parser: Warning, unknown map {0}", map );
 					break;
 			}
 		}

@@ -54,7 +54,7 @@ namespace Server.Misc
 			{
 				if ( ph.Ingame && state.Mobile == null )
 				{
-					Console.WriteLine( "Client: {0}: Sent ingame packet (0xF0x{1:X2}) before having been attached to a mobile", state, packetID );
+					stdout.printf( "Client: {0}: Sent ingame packet (0xF0x{1:X2}) before having been attached to a mobile", state, packetID );
 					state.Dispose();
 				}
 				else if ( ph.Ingame && state.Mobile.Deleted )
