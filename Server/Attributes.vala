@@ -18,9 +18,7 @@
  *
  ***************************************************************************/
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+using Gee;
 
 namespace Server
 {
@@ -59,23 +57,23 @@ namespace Server
 	[AttributeUsage( AttributeTargets.Method )]
 	public class CallPriorityAttribute : Attribute
 	{
-		private int m_Priority;
+		private int m_priority;
 
 		public int Priority
 		{
-			get{ return m_Priority; }
-			set{ m_Priority = value; }
+			get{ return m_priority; }
+			set{ m_priority = value; }
 		}
 
 		public CallPriorityAttribute( int priority )
 		{
-			m_Priority = priority;
+			m_priority = priority;
 		}
 	}
 
-	public class CallPriorityComparer : IComparer<MethodInfo>
+	public class CallPriorityComparer : Comparable<MethodInfo>
 	{
-		public int Compare( MethodInfo x, MethodInfo y )
+		public int compare( MethodInfo x, MethodInfo y )
 		{
 			if ( x == null && y == null )
 				return 0;
@@ -86,10 +84,10 @@ namespace Server
 			if ( y == null )
 				return -1;
 
-			return GetPriority( x ) - GetPriority( y );
+			return get_priority( x ) - get_priority( y );
 		}
 
-		private int GetPriority( MethodInfo mi )
+		private int get_priority( MethodInfo mi )
 		{
 			object[] objs = mi.GetCustomAttributes( typeof( CallPriorityAttribute ), true );
 
@@ -178,22 +176,22 @@ namespace Server
 	[AttributeUsage( AttributeTargets.Property )]
 	public class CommandPropertyAttribute : Attribute
 	{
-		private AccessLevel m_ReadLevel, m_WriteLevel;
-		private bool m_ReadOnly;
+		private AccessLevel m_read_level, m_write_level;
+		private bool m_read_only;
 
-		public AccessLevel ReadLevel
+		public AccessLevel read_level
 		{
 			get
 			{
-				return m_ReadLevel;
+				return m_read_level;
 			}
 		}
 
-		public AccessLevel WriteLevel
+		public AccessLevel write_level
 		{
 			get
 			{
-				return m_WriteLevel;
+				return m_write_level;
 			}
 		}
 
@@ -201,24 +199,24 @@ namespace Server
 		{
 			get
 			{
-				return m_ReadOnly;
+				return m_read_only;
 			}
 		}
 
 		public CommandPropertyAttribute( AccessLevel level, bool readOnly )
 		{
-			m_ReadLevel = level;
-			m_ReadOnly = readOnly;
+			m_read_level = level;
+			m_read_only = readOnly;
 		}
 
 		public CommandPropertyAttribute( AccessLevel level ) : this( level, level )
 		{
 		}
 
-		public CommandPropertyAttribute( AccessLevel readLevel, AccessLevel writeLevel )
+		public CommandPropertyAttribute( AccessLevel l_read_level, AccessLevel l_write_level )
 		{
-			m_ReadLevel = readLevel;
-			m_WriteLevel = writeLevel;
+			m_read_level = l_read_level;
+			m_write_level = l_write_level;
 		}
 	}
 }
