@@ -387,11 +387,7 @@ namespace Server
 			timer_thread = new Thread( new ThreadStart( ttObj.TimerMain ) );
 			timer_thread.Name = "Timer Thread";
 
-			Version ver = m_Assembly.GetName().Version;
-
-			// Added to help future code support on forums, as a 'check' people can ask for to it see if they recompiled core or not
-			stdout.printf( "RunUO - [www.runuo.com] Version {0}.{1}, Build {2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision );
-			stdout.printf( "Core: Running on .NET Framework Version {0}.{1}.{2}", Environment.Version.Major, Environment.Version.Minor, Environment.Version.Build );
+			stdout.printf( "ValaUO - [code.google.com/p/valauo]" );
 
 			string s = Arguments;
 
