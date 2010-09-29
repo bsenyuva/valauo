@@ -117,7 +117,9 @@ namespace Server
 		public static string FindDataFile( string path )
 		{
 			if( m_DataDirectories.Count == 0 )
+			{
 				throw new InvalidOperationException( "Attempted to FindDataFile before DataDirectories list has been filled." );
+			}
 
 			string fullPath = null;
 
@@ -126,7 +128,9 @@ namespace Server
 				fullPath = Path.Combine( m_DataDirectories[i], path );
 
 				if( File.Exists( fullPath ) )
+				{
 					break;
+				}
 
 				fullPath = null;
 			}
@@ -215,7 +219,9 @@ namespace Server
 						m_base_directory = exe_path;
 
 						if( m_base_directory.Length > 0 )
+						{
 							m_base_directory = Path.GetDirectoryName( m_base_directory );
+						}
 					}
 					catch
 					{
@@ -263,9 +269,12 @@ namespace Server
 					{
 					}
 
-					if ( m_Service ) {
+					if ( m_Service )
+					{
 						stdout.printf( "This exception is fatal." );
-					} else {
+					}
+					else
+					{
 						stdout.printf( "This exception is fatal, press return to exit" );
 						Console.ReadLine();
 					}
@@ -343,7 +352,9 @@ namespace Server
 			HandleClosed();
 
 			if ( restart )
+			{
 				Process.Start( exe_path, Arguments );
+			}
 
 			m_process.Kill();
 		}
@@ -351,14 +362,18 @@ namespace Server
 		private static void HandleClosed()
 		{
 			if( m_closing )
+			{
 				return;
+			}
 
 			m_closing = true;
 
 			Console.Write( "Exiting..." );
 
 			if( !m_crashed )
+			{
 				EventSink.InvokeShutdown( new ShutdownEventArgs() );
+			}
 
 			Timer.TimerThread.Set();
 
@@ -373,15 +388,25 @@ namespace Server
 			for( int i = 0; i < args.Length; ++i )
 			{
 				if ( Insensitive.Equals( args[i], "-debug" ) )
+				{
 					m_debug = true;
+				}
 				else if ( Insensitive.Equals( args[i], "-service" ) )
+				{
 					m_Service = true;
+				}
 				else if ( Insensitive.Equals( args[i], "-profile" ) )
+				{
 					Profiling = true;
+				}
 				else if ( Insensitive.Equals( args[i], "-nocache" ) )
+				{
 					m_Cache = false;
+				}
 				else if ( Insensitive.Equals( args[i], "-haltonwarning" ) )
+				{
 					m_HaltOnWarning = true;
+				}
 			}
 
 			try
@@ -389,7 +414,9 @@ namespace Server
 				if( m_Service )
 				{
 					if( !Directory.Exists( "Logs" ) )
+					{
 						Directory.CreateDirectory( "Logs" );
+					}
 
 					Console.SetOut( m_MultiConOut = new MultiTextWriter( new FileLogger( "Logs/Console.log" ) ) );
 				}
