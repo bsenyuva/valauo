@@ -38,12 +38,8 @@ namespace Server
 		private static Process m_process;
 		private static Thread m_Thread;
 		private static bool m_Service;
-		private static bool m_debug;
-		private static bool m_Cache = true;
-		private static bool m_HaltOnWarning;
 		private static MultiTextWriter m_MultiConOut;
 
-		private static bool m_Profiling;
 		private static DateTime m_ProfileStart;
 		private static TimeSpan m_ProfileTime;
 
@@ -57,43 +53,7 @@ namespace Server
 
 		public static Slice Slice;
 
-		public static bool Profiling
-		{
-			get { return m_Profiling; }
-			set
-			{
-				if( m_Profiling == value )
-				{
-					return;
-				}
-
-				m_Profiling = value;
-
-				if( m_ProfileStart > DateTime.MinValue )
-				{
-					m_ProfileTime += DateTime.Now - m_ProfileStart;
-				}
-
-				m_ProfileStart = (m_Profiling ? DateTime.Now : DateTime.MinValue);
-			}
-		}
-
-		public static TimeSpan ProfileTime
-		{
-			get
-			{
-				if( m_ProfileStart > DateTime.MinValue )
-				{
-					return m_ProfileTime + (DateTime.Now - m_ProfileStart);
-				}
-
-				return m_ProfileTime;
-			}
-		}
-
 		public static bool Service { get { return m_Service; } }
-		public static bool Debug { get { return m_debug; } }
-		internal static bool HaltOnWarning { get { return m_HaltOnWarning; } }
 		public static List<string> DataDirectories { get { return m_DataDirectories; } }
 		public static Assembly Assembly { get { return m_Assembly; } set { m_Assembly = value; } }
 		public static Version Version { get { return m_Assembly.GetName().Version; } }
@@ -387,25 +347,9 @@ namespace Server
 		{
 			for( int i = 0; i < args.Length; ++i )
 			{
-				if ( Insensitive.Equals( args[i], "-debug" ) )
-				{
-					m_debug = true;
-				}
-				else if ( Insensitive.Equals( args[i], "-service" ) )
+				if ( Insensitive.Equals( args[i], "-service" ) )
 				{
 					m_Service = true;
-				}
-				else if ( Insensitive.Equals( args[i], "-profile" ) )
-				{
-					Profiling = true;
-				}
-				else if ( Insensitive.Equals( args[i], "-nocache" ) )
-				{
-					m_Cache = false;
-				}
-				else if ( Insensitive.Equals( args[i], "-haltonwarning" ) )
-				{
-					m_HaltOnWarning = true;
 				}
 			}
 
@@ -479,29 +423,8 @@ namespace Server
 				stdout.printf("Core: Server garbage collection mode enabled");
 			}
 
-			while( !ScriptCompiler.Compile( m_debug, m_Cache ) )
-			{
-				stdout.printf( "Scripts: One or more scripts failed to compile or no script files were found." );
-
-				if( m_Service )
-				{
-					return;
-				}
-
-				stdout.printf( " - Press return to exit, or R to try again." );
-
-				if( Console.ReadKey( true ).Key != ConsoleKey.R )
-				{
-					return;
-				}
-			}
-
-			ScriptCompiler.Invoke( "Configure" );
-
 			Region.Load();
 			World.Load();
-
-			ScriptCompiler.Invoke( "Initialize" );
 
 			MessagePump ms = m_MessagePump = new MessagePump();
 
@@ -561,29 +484,9 @@ namespace Server
 			{
 				StringBuilder sb = new StringBuilder();
 
-				if( Core.Debug )
-				{
-					Utility.Separate( sb, "-debug", " " );
-				}
-
 				if( Core.Service )
 				{
 					Utility.Separate( sb, "-service", " " );
-				}
-
-				if( Core.Profiling )
-				{
-					Utility.Separate( sb, "-profile", " " );
-				}
-
-				if( !m_Cache )
-				{
-					Utility.Separate( sb, "-nocache", " " );
-				}
-
-				if( m_HaltOnWarning )
-				{
-					Utility.Separate( sb, "-haltonwarning", " " );
 				}
 
 				return sb.ToString();
