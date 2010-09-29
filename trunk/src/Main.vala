@@ -18,21 +18,10 @@
  *
  ***************************************************************************/
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Net;
-using System.Net.Sockets;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
 using Server;
 using Server.Accounting;
 using Server.Gumps;
 using Server.Network;
-using System.Runtime;
 
 namespace Server
 {
@@ -40,16 +29,16 @@ namespace Server
 
 	public static class Core
 	{
-		private static bool m_Crashed;
-		private static Thread timerThread;
-		private static string m_BaseDirectory;
-		private static string m_ExePath;
+		private static bool m_crashed;
+		private static Thread timer_thread;
+		private static string m_base_directory;
+		private static string m_exe_path;
 		private static List<string> m_DataDirectories = new List<string>();
 		private static Assembly m_Assembly;
-		private static Process m_Process;
+		private static Process m_process;
 		private static Thread m_Thread;
 		private static bool m_Service;
-		private static bool m_Debug;
+		private static bool m_debug;
 		private static bool m_Cache = true;
 		private static bool m_HaltOnWarning;
 		private static bool m_VBdotNET;
@@ -75,12 +64,16 @@ namespace Server
 			set
 			{
 				if( m_Profiling == value )
+				{
 					return;
+				}
 
 				m_Profiling = value;
 
 				if( m_ProfileStart > DateTime.MinValue )
+				{
 					m_ProfileTime += DateTime.Now - m_ProfileStart;
+				}
 
 				m_ProfileStart = (m_Profiling ? DateTime.Now : DateTime.MinValue);
 			}
@@ -91,31 +84,33 @@ namespace Server
 			get
 			{
 				if( m_ProfileStart > DateTime.MinValue )
+				{
 					return m_ProfileTime + (DateTime.Now - m_ProfileStart);
+				}
 
 				return m_ProfileTime;
 			}
 		}
 
 		public static bool Service { get { return m_Service; } }
-		public static bool Debug { get { return m_Debug; } }
+		public static bool Debug { get { return m_debug; } }
 		internal static bool HaltOnWarning { get { return m_HaltOnWarning; } }
 		internal static bool VBdotNet { get { return m_VBdotNET; } }
 		public static List<string> DataDirectories { get { return m_DataDirectories; } }
 		public static Assembly Assembly { get { return m_Assembly; } set { m_Assembly = value; } }
-        public static Version Version { get { return m_Assembly.GetName().Version; } }
-		public static Process Process { get { return m_Process; } }
+		public static Version Version { get { return m_Assembly.GetName().Version; } }
+		public static Process Process { get { return m_process; } }
 		public static Thread Thread { get { return m_Thread; } }
 		public static MultiTextWriter MultiConsoleOut { get { return m_MultiConOut; } }
 
 		public static readonly bool Is64Bit = (IntPtr.Size == 8);
         //TODO: Upon public release of .NET 4.0, use Environment.Is64BitOperatingSystem/Process
 
-		private static bool m_MultiProcessor;
-		private static int m_ProcessorCount;
+		private static bool m_multi_processor;
+		private static int m_processor_count;
 
-		public static bool MultiProcessor { get { return m_MultiProcessor; } }
-		public static int ProcessorCount { get { return m_ProcessorCount; } }
+		public static bool MultiProcessor { get { return m_multi_processor; } }
+		public static int ProcessorCount { get { return m_processor_count; } }
 
 		private static bool m_Unix;
 
@@ -148,66 +143,66 @@ namespace Server
 
 		#region Expansions
 
-		private static Expansion m_Expansion;
+		private static Expansion m_expansion;
 		public static Expansion Expansion
 		{
-			get { return m_Expansion; }
-			set { m_Expansion = value; }
+			get { return m_expansion; }
+			set { m_expansion = value; }
 		}
 
 		public static bool T2A
 		{
-			get { return m_Expansion >= Expansion.T2A; }
+			get { return m_expansion >= Expansion.T2A; }
 		}
 
 		public static bool UOR
 		{
-			get { return m_Expansion >= Expansion.UOR; }
+			get { return m_expansion >= Expansion.UOR; }
 		}
 
 		public static bool UOTD
 		{
-			get { return m_Expansion >= Expansion.UOTD; }
+			get { return m_expansion >= Expansion.UOTD; }
 		}
 
 		public static bool LBR
 		{
-			get { return m_Expansion >= Expansion.LBR; }
+			get { return m_expansion >= Expansion.LBR; }
 		}
 
 		public static bool AOS
 		{
-			get { return m_Expansion >= Expansion.AOS; }
+			get { return m_expansion >= Expansion.AOS; }
 		}
 
 		public static bool SE
 		{
-			get { return m_Expansion >= Expansion.SE; }
+			get { return m_expansion >= Expansion.SE; }
 		}
 
 		public static bool ML
 		{
-			get { return m_Expansion >= Expansion.ML; }
+			get { return m_expansion >= Expansion.ML; }
 		}
 
 		public static bool SA
 		{
-			get { return m_Expansion >= Expansion.SA; }
+			get { return m_expansion >= Expansion.SA; }
 		}
 
 		#endregion
 
-		public static string ExePath
+		public static string exe_path
 		{
 			get
 			{
-				if( m_ExePath == null )
+				if( m_exe_path == null )
 				{
-					m_ExePath = Assembly.Location;
-					//m_ExePath = Process.GetCurrentProcess().MainModule.FileName;
+					m_exe_path = Assembly.Location;
+					//m_exe_path = Process.GetCurrentProcess().MainModule.FileName;
 				}
 
-				return m_ExePath;
+				return m_exe_path;
 			}
 		}
 
@@ -215,22 +210,22 @@ namespace Server
 		{
 			get
 			{
-				if( m_BaseDirectory == null )
+				if( m_base_directory == null )
 				{
 					try
 					{
-						m_BaseDirectory = ExePath;
+						m_base_directory = exe_path;
 
-						if( m_BaseDirectory.Length > 0 )
-							m_BaseDirectory = Path.GetDirectoryName( m_BaseDirectory );
+						if( m_base_directory.Length > 0 )
+							m_base_directory = Path.GetDirectoryName( m_base_directory );
 					}
 					catch
 					{
-						m_BaseDirectory = "";
+						m_base_directory = "";
 					}
 				}
 
-				return m_BaseDirectory;
+				return m_base_directory;
 			}
 		}
 
@@ -241,7 +236,7 @@ namespace Server
 
 			if( e.IsTerminating )
 			{
-				m_Crashed = true;
+				m_crashed = true;
 
 				bool close = false;
 
@@ -278,7 +273,7 @@ namespace Server
 					}
 				}
 
-				m_Closing = true;
+				m_closing = true;
 			}
 		}
 
@@ -312,8 +307,8 @@ namespace Server
 			HandleClosed();
 		}
 
-		private static bool m_Closing;
-		public static bool Closing { get { return m_Closing; } }
+		private static bool m_closing;
+		public static bool Closing { get { return m_closing; } }
 
 		private static long m_CycleIndex;
 		private static float[] m_CyclesPerSecond = new float[100];
@@ -350,21 +345,21 @@ namespace Server
 			HandleClosed();
 
 			if ( restart )
-				Process.Start( ExePath, Arguments );
+				Process.Start( exe_path, Arguments );
 
-			m_Process.Kill();
+			m_process.Kill();
 		}
 
 		private static void HandleClosed()
 		{
-			if( m_Closing )
+			if( m_closing )
 				return;
 
-			m_Closing = true;
+			m_closing = true;
 
 			Console.Write( "Exiting..." );
 
-			if( !m_Crashed )
+			if( !m_crashed )
 				EventSink.InvokeShutdown( new ShutdownEventArgs() );
 
 			Timer.TimerThread.Set();
@@ -375,15 +370,12 @@ namespace Server
 		private static AutoResetEvent m_Signal = new AutoResetEvent( true );
 		public static void Set() { m_Signal.Set(); }
 
-		public static void Main( string[] args )
+		public static void main( string[] args )
 		{
-			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler( CurrentDomain_UnhandledException );
-			AppDomain.CurrentDomain.ProcessExit += new EventHandler( CurrentDomain_ProcessExit );
-
 			for( int i = 0; i < args.Length; ++i )
 			{
 				if ( Insensitive.Equals( args[i], "-debug" ) )
-					m_Debug = true;
+					m_debug = true;
 				else if ( Insensitive.Equals( args[i], "-service" ) )
 					m_Service = true;
 				else if ( Insensitive.Equals( args[i], "-profile" ) )
@@ -415,7 +407,7 @@ namespace Server
 			}
 
 			m_Thread = Thread.CurrentThread;
-			m_Process = Process.GetCurrentProcess();
+			m_process = Process.GetCurrentProcess();
 			m_Assembly = Assembly.GetEntryAssembly();
 
 			if( m_Thread != null )
@@ -425,8 +417,8 @@ namespace Server
 				Directory.SetCurrentDirectory( BaseDirectory );
 
 			Timer.TimerThread ttObj = new Timer.TimerThread();
-			timerThread = new Thread( new ThreadStart( ttObj.TimerMain ) );
-			timerThread.Name = "Timer Thread";
+			timer_thread = new Thread( new ThreadStart( ttObj.TimerMain ) );
+			timer_thread.Name = "Timer Thread";
 
 			Version ver = m_Assembly.GetName().Version;
 
@@ -439,13 +431,15 @@ namespace Server
 			if( s.Length > 0 )
 				stdout.printf( "Core: Running with arguments: {0}", s );
 
-			m_ProcessorCount = Environment.ProcessorCount;
+			m_processor_count = Environment.ProcessorCount;
 
-			if( m_ProcessorCount > 1 )
-				m_MultiProcessor = true;
+			if( m_processor_count > 1 )
+			{
+				m_multi_processor = true;
+			}
 
-			if( m_MultiProcessor || Is64Bit )
-				stdout.printf( "Core: Optimizing for {0} {2}processor{1}", m_ProcessorCount, m_ProcessorCount == 1 ? "" : "s", Is64Bit ? "64-bit " : "" );
+			if( m_multi_processor || Is64Bit )
+				stdout.printf( "Core: Optimizing for {0} {2}processor{1}", m_processor_count, m_processor_count == 1 ? "" : "s", Is64Bit ? "64-bit " : "" );
 
 			int platform = (int)Environment.OSVersion.Platform;
 			if( platform == 4 || platform == 128 ) { // MS 4, MONO 128
@@ -457,20 +451,26 @@ namespace Server
 				SetConsoleCtrlHandler( m_ConsoleEventHandler, true );
 			}
 
-            if ( GCSettings.IsServerGC )
-                stdout.printf("Core: Server garbage collection mode enabled");
+			if ( GCSettings.IsServerGC )
+			{
+				stdout.printf("Core: Server garbage collection mode enabled");
+			}
 
-			while( !ScriptCompiler.Compile( m_Debug, m_Cache ) )
+			while( !ScriptCompiler.Compile( m_debug, m_Cache ) )
 			{
 				stdout.printf( "Scripts: One or more scripts failed to compile or no script files were found." );
 
 				if( m_Service )
+				{
 					return;
+				}
 
 				stdout.printf( " - Press return to exit, or R to try again." );
 
 				if( Console.ReadKey( true ).Key != ConsoleKey.R )
+				{
 					return;
+				}
 			}
 
 			ScriptCompiler.Invoke( "Configure" );
@@ -482,10 +482,12 @@ namespace Server
 
 			MessagePump ms = m_MessagePump = new MessagePump();
 
-			timerThread.Start();
+			timer_thread.Start();
 
 			for( int i = 0; i < Map.AllMaps.Count; ++i )
+			{
 				Map.AllMaps[i].Tiles.Force();
+			}
 
 			NetState.Initialize();
 
@@ -512,13 +514,14 @@ namespace Server
 					NetState.ProcessDisposedQueue();
 
 					if( Slice != null )
+					{
 						Slice();
+					}
 
 					if( (++sample % sampleInterval) == 0 )
 					{
 						now = DateTime.Now;
-						m_CyclesPerSecond[m_CycleIndex++ % m_CyclesPerSecond.Length] =
-							ticksPerSecond / (now.Ticks - last.Ticks);
+						m_CyclesPerSecond[m_CycleIndex++ % m_CyclesPerSecond.Length] = ticksPerSecond / (now.Ticks - last.Ticks);
 						last = now;
 					}
 				}
@@ -536,22 +539,34 @@ namespace Server
 				StringBuilder sb = new StringBuilder();
 
 				if( Core.Debug )
+				{
 					Utility.Separate( sb, "-debug", " " );
+				}
 
 				if( Core.Service )
+				{
 					Utility.Separate( sb, "-service", " " );
+				}
 
 				if( Core.Profiling )
+				{
 					Utility.Separate( sb, "-profile", " " );
+				}
 
 				if( !m_Cache )
+				{
 					Utility.Separate( sb, "-nocache", " " );
+				}
 
 				if( m_HaltOnWarning )
+				{
 					Utility.Separate( sb, "-haltonwarning", " " );
+				}
 
 				if ( m_VBdotNET )
+				{
 					Utility.Separate( sb, "-vb", " " );
+				}
 
 				return sb.ToString();
 			}
