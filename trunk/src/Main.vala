@@ -41,7 +41,6 @@ namespace Server
 		private static bool m_debug;
 		private static bool m_Cache = true;
 		private static bool m_HaltOnWarning;
-		private static bool m_VBdotNET;
 		private static MultiTextWriter m_MultiConOut;
 
 		private static bool m_Profiling;
@@ -95,7 +94,6 @@ namespace Server
 		public static bool Service { get { return m_Service; } }
 		public static bool Debug { get { return m_debug; } }
 		internal static bool HaltOnWarning { get { return m_HaltOnWarning; } }
-		internal static bool VBdotNet { get { return m_VBdotNET; } }
 		public static List<string> DataDirectories { get { return m_DataDirectories; } }
 		public static Assembly Assembly { get { return m_Assembly; } set { m_Assembly = value; } }
 		public static Version Version { get { return m_Assembly.GetName().Version; } }
@@ -384,8 +382,6 @@ namespace Server
 					m_Cache = false;
 				else if ( Insensitive.Equals( args[i], "-haltonwarning" ) )
 					m_HaltOnWarning = true;
-				else if ( Insensitive.Equals( args[i], "-vb" ) )
-					m_VBdotNET = true;
 			}
 
 			try
@@ -561,11 +557,6 @@ namespace Server
 				if( m_HaltOnWarning )
 				{
 					Utility.Separate( sb, "-haltonwarning", " " );
-				}
-
-				if ( m_VBdotNET )
-				{
-					Utility.Separate( sb, "-vb", " " );
 				}
 
 				return sb.ToString();
