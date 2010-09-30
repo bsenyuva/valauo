@@ -869,13 +869,15 @@ namespace Server
 
 		internal static void Load()
 		{
-			if ( !System.IO.File.Exists( "Data/Regions.xml" ) )
+			var data_path = File.new_for_path ("Data");
+			var region_xml = data_path.get_child ("Regions.xml");
+			if ( !region_xml.query_exists (null) )
 			{
 				stdout.printf( "Error: Data/Regions.xml does not exist" );
 				return;
 			}
 
-			Console.Write( "Regions: Loading..." );
+			stdout.printf( "Regions: Loading..." );
 
 			XmlDocument doc = new XmlDocument();
 			doc.Load( System.IO.Path.Combine( Core.BaseDirectory, "Data/Regions.xml" ) );
@@ -894,9 +896,13 @@ namespace Server
 					if ( ReadMap( facet, "name", ref map ) )
 					{
 						if ( map == Map.Internal )
+						{
 							stdout.printf( "Invalid internal map in a facet element" );
+						}
 						else
+						{
 							LoadRegions( facet, map, null );
+						}
 					}
 				}
 			}
