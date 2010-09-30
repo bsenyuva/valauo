@@ -36,8 +36,8 @@ namespace Server
 		private static List<string> m_DataDirectories = new List<string>();
 		private static Assembly m_Assembly;
 		private static Process m_process;
-		private static Thread m_Thread;
-		private static bool m_Service;
+		private static Thread m_thread;
+		private static bool m_service;
 		private static MultiTextWriter m_MultiConOut;
 
 		private static MessagePump m_MessagePump;
@@ -50,12 +50,12 @@ namespace Server
 
 		public static Slice Slice;
 
-		public static bool Service { get { return m_Service; } }
+		public static bool Service { get { return m_service; } }
 		public static List<string> DataDirectories { get { return m_DataDirectories; } }
 		public static Assembly Assembly { get { return m_Assembly; } set { m_Assembly = value; } }
 		public static Version Version { get { return m_Assembly.GetName().Version; } }
 		public static Process Process { get { return m_process; } }
-		public static Thread Thread { get { return m_Thread; } }
+		public static Thread Thread { get { return m_thread; } }
 		public static MultiTextWriter MultiConsoleOut { get { return m_MultiConOut; } }
 
 		public static readonly bool Is64Bit = (IntPtr.Size == 8);
@@ -103,7 +103,7 @@ namespace Server
 		#region Expansions
 
 		private static Expansion m_expansion;
-		public static Expansion Expansion
+		public static Expansion expansion
 		{
 			get { return m_expansion; }
 			set { m_expansion = value; }
@@ -165,7 +165,7 @@ namespace Server
 			}
 		}
 
-		public static string BaseDirectory
+		public static string base_directory
 		{
 			get
 			{
@@ -213,7 +213,7 @@ namespace Server
 				{
 				}
 
-				if( !close && !m_Service )
+				if( !close && !m_service )
 				{
 					try
 					{
@@ -226,7 +226,7 @@ namespace Server
 					{
 					}
 
-					if ( m_Service )
+					if ( m_service )
 					{
 						stdout.printf( "This exception is fatal." );
 					}
@@ -258,7 +258,7 @@ namespace Server
 
 		private static bool OnConsoleEvent( ConsoleEventType type )
 		{
-			if( World.Saving || ( m_Service && type == ConsoleEventType.CTRL_LOGOFF_EVENT ) )
+			if( World.Saving || ( m_service && type == ConsoleEventType.CTRL_LOGOFF_EVENT ) )
 				return true;
 
 			Kill();
@@ -346,18 +346,16 @@ namespace Server
 			{
 				if ( Insensitive.Equals( args[i], "-service" ) )
 				{
-					m_Service = true;
+					m_service = true;
 				}
 			}
 
 			try
 			{
-				if( m_Service )
+				if( m_service )
 				{
-					if( !Directory.Exists( "Logs" ) )
-					{
-						Directory.CreateDirectory( "Logs" );
-					}
+					var logpath = File.new_for_path ("Logs");
+					logpath.make_directory_with_parents (null);
 
 					Console.SetOut( m_MultiConOut = new MultiTextWriter( new FileLogger( "Logs/Console.log" ) ) );
 				}
@@ -370,15 +368,15 @@ namespace Server
 			{
 			}
 
-			m_Thread = Thread.CurrentThread;
+			m_thread = Thread.CurrentThread;
 			m_process = Process.GetCurrentProcess();
 			m_Assembly = Assembly.GetEntryAssembly();
 
-			if( m_Thread != null )
-				m_Thread.Name = "Core Thread";
+			if( m_thread != null )
+				m_thread.Name = "Core Thread";
 
-			if( BaseDirectory.Length > 0 )
-				Directory.SetCurrentDirectory( BaseDirectory );
+			if( base_directory.Length > 0 )
+				Directory.SetCurrentDirectory( base_directory );
 
 			Timer.TimerThread ttObj = new Timer.TimerThread();
 			timer_thread = new Thread( new ThreadStart( ttObj.TimerMain ) );
