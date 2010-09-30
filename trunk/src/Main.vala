@@ -40,9 +40,6 @@ namespace Server
 		private static bool m_Service;
 		private static MultiTextWriter m_MultiConOut;
 
-		private static DateTime m_ProfileStart;
-		private static TimeSpan m_ProfileTime;
-
 		private static MessagePump m_MessagePump;
 
 		public static MessagePump MessagePump
